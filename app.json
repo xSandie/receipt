@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/historyReceipt/historyReceipt",
+    "pages/chooseTitle/chooseTitle",
+    "pages/invoiceDetail/invoiceDetail",
+    "pages/getInvoice/getInvoice",
+    "pages/titleEdit/titleEdit",
+    "pages/titleDisplay/titleDisplay"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json"
+}

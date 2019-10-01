@@ -1,0 +1,66 @@
+/**app.wxss**/
+page{
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  background: #efeff2;
+  color: #98989b;
+  --backgroundGrey:#efeff2;
+  --unimportantGrey:#98989b;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30rpx;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.unimportant-grey{
+  color: #98989b;
+}
+
+.black-fg{
+  color: black;
+}
+
+.green-bg{
+  background: #5cb24a;
+}
+
+.green-fg{
+  color: #5cb24a;
+}
+
+.font-24{
+  font-size: 24rpx;
+}
+
+.font-28{
+  font-size: 28rpx;
+}
+
+.font-30{
+  font-size: 30rpx;
+}
+
+.font-32{
+  font-size: 32rpx;
+}
+
+.white-card{
+  display: flex;
+  flex-direction: column;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  background: white;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.small-title{
+  margin: 30rpx 0rpx 20rpx 30rpx;
+  box-sizing: border-box;
+}
+

@@ -1,0 +1,38 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="white-card header">
+<!--    头部选择区-->
+    <view class="title-icon-area">
+      <view class="title-icon"><image class="title-icon-img" src="{{icon.scan}}"></image></view>
+      <view><text class="font-28">扫码开票</text></view>
+    </view>
+    <view class="title-icon-area">
+      <view class="title-icon"><image class="title-icon-img" src="{{icon.history}}"></image></view>
+      <view><text class="font-28">开票历史</text></view>
+    </view>
+  </view>
+<!--    发票抬头列表区-->
+    <view class="small-title font-30 unimportant-grey">发票抬头信息</view>
+    <view class="white-card">
+      <view class="add-title-area" bindtap="addTitle">
+<!--        添加发票抬头-->
+          <image class="add-title-img" src="{{icon.add}}"></image>
+          <view><text class="black-fg">添加发票抬头</text></view>
+      </view>
+      <view class="title-list">
+<!--        已有发票抬头，列表显示-->
+        <view class="title-item" wx:for="{{titles}}">
+            <view class="rline"></view>
+            <view class="item-body" bindtap="toTitleDisplay" data-id="{{item.id}}">
+                <view class="item-content">
+                    <view class="font-32 item-title black-fg">{{item.title}}</view>
+                    <view class="font-24 unimportant-grey">{{item.detail}}</view>
+                </view>
+                <view><image class="arrow-icon" src="{{icon.arrow}}"></image></view>
+            </view>
+
+
+        </view>
+      </view>
+    </view>
+</view>
