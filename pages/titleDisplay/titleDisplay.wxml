@@ -1,2 +1,58 @@
-<!--pages/titleDisplay/titleDisplay.wxml-->
-<text>pages/titleDisplay/titleDisplay.wxml</text>
+<view class="container">
+    <view class="title-area font-30 unimportant-grey">
+        <view>发票抬头</view>
+        <view bindtap="deleteSelf">删除</view>
+    </view>
+    <view wx:if="{{isCompany}}">
+        <view class="white-card">
+            <view class="row black-fg font-32">
+                <view class="name">名 称</view>
+                <view class="content"><text>{{title.title}}</text></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>税 号</text></view>
+                <view class="content"><text>{{title.taxNumb}}</text></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>单位地址</text></view>
+                <view class="content"><text>{{title.address}}</text></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>电话号码</text></view>
+                <view class="content"><text>{{title.companyPhone}}</text></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>开户银行</text></view>
+                <view class="content"><text>{{title.bank}}</text></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>银行账户</text></view>
+                <view class="content"><text>{{title.bankAccount}}</text></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>邮 箱</text></view>
+                <view class="content"><text>{{title.email}}</text></view>
+            </view>
+        </view>
+    </view>
+    <view wx:else>
+        <view class="white-card">
+            <view class="row black-fg font-32">
+                <view class="name">名 称</view>
+                <view class="content"><text>{{title.title}}</text></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>邮 箱</text></view>
+                <view class="content"><text>{{title.email}}</text></view>
+            </view>
+        </view>
+    </view>
+    <button style="margin-top: 20rpx;width: 100%;" type="primary" bindtap="toEdit">编辑</button>
+</view>

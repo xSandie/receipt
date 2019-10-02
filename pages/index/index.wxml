@@ -2,11 +2,11 @@
 <view class="container">
   <view class="white-card header">
 <!--    头部选择区-->
-    <view class="title-icon-area">
+    <view class="title-icon-area" bindtap="scanCode">
       <view class="title-icon"><image class="title-icon-img" src="{{icon.scan}}"></image></view>
       <view><text class="font-28">扫码开票</text></view>
     </view>
-    <view class="title-icon-area">
+    <view class="title-icon-area" bindtap="toHistory">
       <view class="title-icon"><image class="title-icon-img" src="{{icon.history}}"></image></view>
       <view><text class="font-28">开票历史</text></view>
     </view>
@@ -25,13 +25,11 @@
             <view class="rline"></view>
             <view class="item-body" bindtap="toTitleDisplay" data-id="{{item.id}}">
                 <view class="item-content">
-                    <view class="font-32 item-title black-fg">{{item.title}}</view>
+                    <view class="font-32 item-title black-fg"><text>{{item.title}}</text></view>
                     <view class="font-24 unimportant-grey">{{item.detail}}</view>
                 </view>
                 <view><image class="arrow-icon" src="{{icon.arrow}}"></image></view>
             </view>
-
-
         </view>
       </view>
     </view>

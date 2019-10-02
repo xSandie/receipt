@@ -13,7 +13,7 @@ Page({
     },
     titles:[{
       id:"1",  //根据type判断js添加啥字样
-      title:"向书晗",
+      title:"向书晗陕西师范大学陕西师范大学陕西师范大学陕西师范大学",
       detail:"邮箱：345592674@qq.com"  //太长做截取处理
     },]
   },
@@ -84,6 +84,24 @@ Page({
   addTitle:function () {
     wx.navigateTo({
       url:"../titleEdit/titleEdit"
+    })
+  },
+  scanCode:function () {
+    var that = this
+    wx.scanCode({
+      success (res) {
+        if (res.scanType != 'DATA_MATRIX' &&
+            res.scanType != 'PDF_417' && res.scanType != 'WX_CODE'
+        ){//一维码
+          console.log(res.result)
+          // 请求服务器返回商品数据，带商品数据到购物车接口，同时判断是否启动连续扫码
+        }
+      }
+    })
+  },
+  toHistory:function () {
+    wx.navigateTo({
+      url:"../historyReceipt/historyReceipt"
     })
   }
 })

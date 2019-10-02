@@ -5,7 +5,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    title:{
+      title:"陕西师范大学（名称）",
+      taxNumb:"税号x1231244343423",
+      address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
+      companyPhone:"电话号码",
+      bank:"开户银行",
+      bankAccount:"银行账户11111",
+      email:"邮箱345592674@qq.com"
+    },
+    isCompany:true
   },
 
   /**
@@ -62,5 +71,22 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  addTitle:function (e) {
+    console.log(e)
+
+  },
+  chooseType:function (e) {
+    var tabId = e.target.dataset.id
+    console.log(e, tabId)
+    if (tabId === "private"){
+      this.setData({
+        isCompany:false
+      })
+    } else if (tabId === "company"){
+      this.setData({
+        isCompany:true
+      })
+    }
   }
 })

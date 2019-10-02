@@ -1,1 +1,37 @@
-/* pages/titleDisplay/titleDisplay.wxss */
+.title-area{
+    box-sizing: border-box;
+    width: 690rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rpx 30rpx 20rpx 30rpx;
+}
+
+.rline{
+    box-sizing: border-box;
+    width: 100%;
+    height: 2rpx;
+    background: var(--backgroundGrey);
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.name{
+    width: 138rpx;
+    margin-right: 30rpx;
+    text-align:justify;
+    overflow:hidden;
+    white-space: nowrap;
+}
+
+.content{
+    box-sizing: border-box;
+    width: 490rpx;
+}
+

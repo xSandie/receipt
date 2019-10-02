@@ -5,7 +5,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    isCompany:true,  //判断是不是公司抬头
+    title:{
+      title:"陕西师范大学（名称）",
+      taxNumb:"税号x1231244343423",
+      address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
+      companyPhone:"电话号码",
+      bank:"开户银行",
+      bankAccount:"银行账户11111",
+      email:"邮箱345592674@qq.com"
+    },
   },
 
   /**
@@ -62,5 +71,21 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  toEdit:function () {
+    wx.navigateTo({
+      url:"../titleEdit/titleEdit"
+    })
+  },
+  deleteSelf:function () {
+    wx.showModal({
+      content:"确定删除此发票抬头？",
+      success(res) {
+        if (res.confirm){
+          //删除此条抬头
+        }
+      }
+    })
   }
 })

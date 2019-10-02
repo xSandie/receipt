@@ -1,12 +1,14 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/historyReceipt/historyReceipt",
     "pages/chooseTitle/chooseTitle",
     "pages/invoiceDetail/invoiceDetail",
-    "pages/getInvoice/getInvoice",
+    
     "pages/titleEdit/titleEdit",
-    "pages/titleDisplay/titleDisplay"
+    "pages/titleDisplay/titleDisplay",
+    "pages/getInvoice/getInvoice"
   ],
   "window": {
     "backgroundTextStyle": "light",
