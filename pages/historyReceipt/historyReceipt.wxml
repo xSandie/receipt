@@ -1,2 +1,27 @@
 <!--pages/historyReceipt/historyReceipt.wxml-->
-<text>pages/historyReceipt/historyReceipt.wxml</text>
+<view class="container">
+    <view class="white-card-row">
+        <view class="btn-box" bindtap="changeType">
+            <view>{{receiptType}}</view>
+            <image class="triangle-icon" src="{{icon.triangle}}"></image>
+        </view>
+        <view class="btn-box" bindtap="changeDate">
+            <view>发票日期</view>
+            <image class="triangle-icon" src="{{icon.triangle}}"></image>
+        </view>
+    </view>
+    <view class="invoice-list">
+        <view class="white-card-column" wx:for="{{invoiceList}}">
+            <view class="receiptTitle font-28">发票抬头：{{item.receiptTitle}}</view>
+            <view class="margin-bar"></view>
+            <view class="row font-24">
+                <view class="receiptMoney">发票金额：{{item.receiptMoney}}元</view>
+                <view class="unimportant-grey">{{item.buildTime}}</view>
+            </view>
+            <view class="status-badge font-22">
+                {{item.type}}-{{item.status}}
+<!--                todo 发票状态 及 类型 小标签带背景色-->
+            </view>
+        </view>
+    </view>
+</view>

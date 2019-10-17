@@ -5,7 +5,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    invoiceList:[{
+      receiptTitle:"陕西师范大学",
+      receiptMoney:"11.00",
+      buildTime:"2019-10-14",
+      status:"已开票",
+      type:"纸质"
+    },],
+    receiptType:"全部发票",
+    icon:{
+      triangle:""
+    }
   },
 
   /**
@@ -62,5 +72,11 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  changeType:function () {
+    //todo 筛选发票类型
+  },
+  changeDate:function () {
+    //todo 筛选发票日期
   }
 })
