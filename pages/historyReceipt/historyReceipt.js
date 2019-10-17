@@ -6,11 +6,13 @@ Page({
    */
   data: {
     invoiceList:[{
+      id:"zwk",
       receiptTitle:"陕西师范大学",
       receiptMoney:"11.00",
       buildTime:"2019-10-14",
       status:"已开票",
-      type:"纸质"
+      type:"纸质",
+      content:"一个讨人厌的张文柯"
     },],
     receiptType:"全部发票",
     icon:{
@@ -78,5 +80,13 @@ Page({
   },
   changeDate:function () {
     //todo 筛选发票日期
+  },
+  toDetail:function (e) {
+    console.log(e)
+    //todo 查看发票详情
+    let receiptId = currentTarget.dataset.id
+    wx.navigateTo({
+      url:"../invoiceDetail/invoiceDetail?invoiceId="+receiptId
+    })
   }
 })

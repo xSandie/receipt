@@ -12,7 +12,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var invoiceId = options.invoiceId
+    //todo 请求发票详情
   },
 
   /**

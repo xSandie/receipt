@@ -4,6 +4,11 @@
     display: flex;
     flex-direction: column;
     width: 690rpx;
+    padding: 30rpx;
+    color: black;
+    border-radius: 16rpx;
+    background: white;
+    box-sizing: border-box;
 }
 
 .white-card-row{
@@ -11,6 +16,9 @@
     flex-direction: row;
     width: 690rpx;
     padding: 0;
+    border-radius: 16rpx;
+    background: white;
+    box-sizing: border-box;
 }
 
 .btn-box{
@@ -19,7 +27,7 @@
     justify-content: center;
     align-items: center;
     width: 50%;
-    height: 160rpx;
+    height: 100rpx;
 }
 
 .row{
@@ -40,4 +48,17 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.status-badge{
+    /*todo 宽度问题*/
+    width: 600rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.triangle-icon{
+    width: 40rpx;
+    height: 40rpx;
 }

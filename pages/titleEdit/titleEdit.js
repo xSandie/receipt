@@ -6,6 +6,7 @@ Page({
    */
   data: {
     title:{
+      //todo 改成正式的
       title:"陕西师范大学（名称）",
       taxNumb:"税号x1231244343423",
       address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
@@ -21,7 +22,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+      if (options.page_from){
+        if (options.page_from === "display") {
+          //从展示页面过来，携带抬头id
+          var titleId = options.id
+          //todo 请求发票抬头详细信息填充 判断是否是企业抬头
 
+        }
+      }
   },
 
   /**

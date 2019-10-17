@@ -39,6 +39,10 @@ page{
   color: #5cb24a;
 }
 
+.font-22{
+  font-size: 22rpx;
+}
+
 .font-24{
   font-size: 24rpx;
 }

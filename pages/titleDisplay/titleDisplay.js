@@ -6,6 +6,7 @@ Page({
    */
   data: {
     isCompany:true,  //判断是不是公司抬头
+    titleId:"发票抬头id",
     title:{
       title:"陕西师范大学（名称）",
       taxNumb:"税号x1231244343423",
@@ -74,8 +75,9 @@ Page({
   },
 
   toEdit:function () {
+    let that = this
     wx.navigateTo({
-      url:"../titleEdit/titleEdit"
+      url:"../titleEdit/titleEdit?page_from="+"display&" + "id=" + that.data.titleId
     })
   },
   deleteSelf:function () {
