@@ -9,6 +9,7 @@
     border-radius: 16rpx;
     background: white;
     box-sizing: border-box;
+    position: relative;
 }
 
 .white-card-row{
@@ -44,7 +45,7 @@
 
 .receiptTitle{
     /*todo 宽度问题*/
-    width: 600rpx;
+    width: 480rpx;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -52,10 +53,18 @@
 
 .status-badge{
     /*todo 宽度问题*/
-    width: 600rpx;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 3rpx 6rpx;
+    border-radius: 4rpx;
+    width: auto;
+    height: 32rpx;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    top: 34rpx;
+    right: 30rpx;
 }
 
 .triangle-icon{

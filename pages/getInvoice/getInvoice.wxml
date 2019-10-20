@@ -1,2 +1,4 @@
-<!--pages/getInvoice/getInvoice.wxml-->
-<text>pages/getInvoice/getInvoice.wxml</text>
+<!--开票页面-->
+<view class="container">
+
+</view>

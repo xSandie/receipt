@@ -1,11 +1,22 @@
 // pages/chooseTitle/chooseTitle.js选择发票抬头
+// todo 1.时间降序排列抬头 2.每次显示重新请求抬头 3.下拉刷新
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    icon:{
+      scan:"../../images/index/scan.png",
+      history:"../../images/index/history.png",
+      add:"../../images/index/add.png",
+      arrow:"../../images/index/arrow.png"
+    },
+    titles:[{
+      id:"1",  //根据type判断js添加啥字样
+      title:"向书晗陕西师范大学陕西师范大学陕西师范大学陕西师范大学",
+      detail:"邮箱：345592674@qq.com"  //太长做截取处理
+    },]
   },
 
   /**

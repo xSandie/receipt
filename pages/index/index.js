@@ -92,9 +92,11 @@ Page({
       success (res) {
         if (res.scanType != 'DATA_MATRIX' &&
             res.scanType != 'PDF_417' && res.scanType != 'WX_CODE'
-        ){//一维码
+        ){//一维码 todo 二维码
           console.log(res.result)
-          // 请求服务器返回商品数据，带商品数据到购物车接口，同时判断是否启动连续扫码
+          wx.navigateTo({
+            url:"../getInvoice/getInvoice?code="+res.result
+          })
         }
       }
     })

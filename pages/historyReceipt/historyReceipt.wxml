@@ -1,6 +1,6 @@
 <!--pages/historyReceipt/historyReceipt.wxml-->
 <view class="container">
-    <view class="white-card-row">
+    <view class="white-card-row black-fg">
         <view class="btn-box" bindtap="changeType">
             <view>{{receiptType}}</view>
             <image class="triangle-icon" src="{{icon.triangle}}"></image>
@@ -14,6 +14,10 @@
     <view class="margin-bar"></view>
     <view class="invoice-list">
         <view class="white-card-column" bindtap="toDetail" wx:for="{{invoiceList}}" data-id="{{item.id}}">
+            <view class="status-badge font-22">
+                {{item.type}}-{{item.status}}
+                <!--                todo 发票状态 及 类型 小标签带背景色-->
+            </view>
             <view class="receiptTitle font-28">发票抬头：{{item.receiptTitle}}</view>
             <view class="margin-bar"></view>
             <view class="content font-24">{{item.content}}</view>
@@ -21,10 +25,6 @@
             <view class="row font-24 unimportant-grey">
                 <view class="receiptMoney">发票金额：{{item.receiptMoney}}元</view>
                 <view>{{item.buildTime}}</view>
-            </view>
-            <view class="status-badge font-22">
-                {{item.type}}-{{item.status}}
-<!--                todo 发票状态 及 类型 小标签带背景色-->
             </view>
         </view>
     </view>

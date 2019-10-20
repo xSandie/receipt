@@ -54,5 +54,6 @@
             </view>
         </view>
     </view>
+    <button wx:if="{{showChooseBtn}}" style="margin-top: 20rpx;width: 100%;" type="primary" bindtap="chooseTitle">选择抬头</button>
     <button style="margin-top: 20rpx;width: 100%;" type="primary" bindtap="toEdit">编辑</button>
 </view>

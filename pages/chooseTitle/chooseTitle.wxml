@@ -1,2 +1,24 @@
 <!--pages/chooseTitle/chooseTitle.wxml-->
-<text>pages/chooseTitle/chooseTitle.wxml</text>
+<view class="container">
+    <!--    发票抬头列表区-->
+    <view class="white-card">
+        <view class="add-title-area" bindtap="addTitle">
+            <!--        添加发票抬头-->
+            <image class="add-title-img" src="{{icon.add}}"></image>
+            <view><text class="black-fg">添加发票抬头</text></view>
+        </view>
+        <view class="title-list">
+            <!--        已有发票抬头，列表显示-->
+            <view class="title-item" wx:for="{{titles}}">
+                <view class="rline"></view>
+                <view class="item-body" bindtap="toTitleDisplay" data-id="{{item.id}}">
+                    <view class="item-content">
+                        <view class="font-32 item-title black-fg"><text>{{item.title}}</text></view>
+                        <view class="font-24 unimportant-grey">{{item.detail}}</view>
+                    </view>
+                    <view><image class="arrow-icon" src="{{icon.arrow}}"></image></view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

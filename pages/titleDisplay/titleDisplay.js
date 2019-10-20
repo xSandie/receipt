@@ -16,13 +16,25 @@ Page({
       bankAccount:"银行账户11111",
       email:"邮箱345592674@qq.com"
     },
+    showChooseBtn:true
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      // 判断是否展示选择按钮
+    if (options.from_page){
+      if (options.from_page === "choose") {
+        this.setData({
+          showChooseBtn:true
+        })
+      }else {
+        this.setData({
+          showChooseBtn:false
+        })
+      }
+    }
   },
 
   /**
@@ -89,5 +101,8 @@ Page({
         }
       }
     })
+  },
+  chooseTitle:function () {
+    //todo 选择抬头，设置全局抬头id
   }
 })

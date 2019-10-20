@@ -1,1 +1,91 @@
-/* pages/chooseTitle/chooseTitle.wxss */
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.white-card{
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.title-item{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.rline{
+    box-sizing: border-box;
+    width: 100%;
+    height: 2rpx;
+    background: var(--backgroundGrey);
+    margin-top: 30rpx;
+}
+
+.item-title{
+    margin-bottom: 10rpx;
+    margin-top: 25rpx;
+    box-sizing: border-box;
+    width: 600rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.title-icon-img{
+    width:50rpx;
+    height: 50rpx;
+}
+
+.title-icon{
+    width: 90rpx;
+    height: 90rpx;
+    border-radius: 45rpx;
+    background: var(--backgroundGrey);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-icon-area{
+    height: 160rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: var(--unimportantGrey);
+    align-items: center;
+}
+
+.add-title-img{
+    height: 50rpx;
+    width: 50rpx;
+    margin-right: 20rpx;
+}
+
+.add-title-area{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.arrow-icon{
+    width: 40rpx;
+    height: 40rpx;
+    margin-top: 30rpx;
+}
+.item-content{
+    display: flex;
+    flex-direction: column;
+}
+
+.item-body{
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
