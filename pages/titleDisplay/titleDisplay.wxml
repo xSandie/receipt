@@ -1,7 +1,7 @@
 <view class="container">
     <view class="title-area font-30 unimportant-grey">
         <view>发票抬头</view>
-        <view bindtap="deleteSelf">删除</view>
+        <view wx:if="{{!showChooseBtn}}" bindtap="deleteSelf">删除</view>
     </view>
     <view wx:if="{{isCompany}}">
         <view class="white-card">

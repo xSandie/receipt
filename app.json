@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/chooseTitle/chooseTitle",
     "pages/index/index",
+    "pages/chooseTitle/chooseTitle",
     "pages/historyReceipt/historyReceipt",
     "pages/invoiceDetail/invoiceDetail",
     

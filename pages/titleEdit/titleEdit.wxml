@@ -77,6 +77,6 @@
 <!--                <view class="content"><input name="totalPrice" type="text" placeholder="{{title.email}}"/></view>-->
 <!--            </view>-->
 <!--        </view>-->
-    <button form-type="submit" style="margin-top: 20rpx;width: 100%;" type="primary" bindtap="toEdit">完成</button>
+        <button form-type="submit" style="margin-top: 20rpx;width: 100%;" type="primary">完成</button>
     </form>
 </view>

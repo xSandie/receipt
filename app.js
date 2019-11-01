@@ -11,11 +11,11 @@ App({
   globalData: {
     userInfo: null,
     chosenTitle:{
-      haveSet:false,
+      haveSet:false, //判断是否设置过发票抬头了
       isCompany:false, //判断是否是企业抬头
-      id:1,
-      title:"抬头陕师大",
-      sum:"邮箱"
+      titleId:1,
+      title:"发票抬头",
+      sum:"点击选择发票抬头"
     },//选择的发票抬头
   }
 })

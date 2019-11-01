@@ -78,7 +78,7 @@ Page({
     var titleId = e.currentTarget.dataset.id
     console.log(e,titleId)
     wx.navigateTo({
-      url:"../titleDisplay/titleDisplay"
+      url:"../titleDisplay/titleDisplay?id="+titleId
     })
   },
   addTitle:function () {

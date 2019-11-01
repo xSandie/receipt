@@ -16,7 +16,7 @@ Page({
       bankAccount:"银行账户11111",
       email:"邮箱345592674@qq.com"
     },
-    showChooseBtn:true
+    showChooseBtn:false
   },
 
   /**

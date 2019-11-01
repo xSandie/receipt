@@ -1,14 +1,14 @@
 <!--pages/historyReceipt/historyReceipt.wxml-->
 <view class="container">
     <view class="white-card-row black-fg">
-        <view class="btn-box" bindtap="changeType">
-            <view>{{receiptType}}</view>
+        <picker class="btn-box" bindchange="changeType" value="{{receiptType}}" range="{{typeArray}}">
+            <view style="display: inline;">{{receiptType}}</view>
             <image class="triangle-icon" src="{{icon.triangle}}"></image>
-        </view>
-        <view class="btn-box" bindtap="changeDate">
-            <view>发票日期</view>
+        </picker>
+        <picker class="btn-box" mode="multiSelector" value="{{date}}" range="{{dateArray}}" bindchange="changeDate">
+            <view style="display: inline;">{{date}}</view>
             <image class="triangle-icon" src="{{icon.triangle}}"></image>
-        </view>
+        </picker>
     </view>
     <view class="margin-bar"></view>
     <view class="margin-bar"></view>

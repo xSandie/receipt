@@ -73,5 +73,17 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+  addTitle:function () {
+    wx.navigateTo({
+      url:"../titleEdit/titleEdit"
+    })
+  },
+  toTitleDisplay: function (e) {
+    var titleId = e.currentTarget.dataset.id
+    console.log(e,titleId)
+    wx.navigateTo({
+      url:"../titleDisplay/titleDisplay?id="+titleId+"&from_page=choose"
+    })
+  },
 })

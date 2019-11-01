@@ -68,6 +68,11 @@
 }
 
 .triangle-icon{
-    width: 40rpx;
-    height: 40rpx;
+    margin-top: 2rpx;
+    margin-left: 10rpx;
+    width: 20rpx;
+    height: 20rpx;
+}
+picker{
+    display: flex;
 }

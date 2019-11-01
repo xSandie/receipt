@@ -14,17 +14,22 @@ Page({
       type:"纸质",
       content:"一个讨人厌的张文柯"
     },],
-    receiptType:"全部发票",
     icon:{
-      triangle:""
-    }
+      triangle:"../../images/historyReceipt/arrow.png"
+    },
+    dateArray:[["不限日期","2018年","2019年"],["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]],
+    date:"选择日期",
+    typeArray:["全部发票","电子发票","纸质发票"],
+    receiptType:"全部发票",
   },
-
+  defaultData:{
+    date:"选择日期",
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    //todo 动态加载dateArray
   },
 
   /**
@@ -75,16 +80,38 @@ Page({
   onShareAppMessage: function () {
 
   },
-  changeType:function () {
-    //todo 筛选发票类型
+  changeType:function (e) {
+    // 筛选发票类型
+    let that = this
+    var value = e.detail.value
+    var realValue = that.data.typeArray[value]
+    console.log(realValue)
+    this.setData({
+      receiptType:realValue
+    })
+    //todo 发起请求
   },
-  changeDate:function () {
-    //todo 筛选发票日期
+  changeDate:function (e) {
+    // 筛选发票月份
+    let that = this
+    var value = e.detail.value
+    console.log(value)
+    if (value[0] == 0){ //选择了不限日期
+      this.setData({
+        date:that.defaultData.date
+      })
+    } else {
+      var newDate = that.data.dateArray[0][value[0]]+that.data.dateArray[1][value[1]]
+      this.setData({
+        date:newDate
+      })
+      //todo 发起请求
+    }
   },
   toDetail:function (e) {
     console.log(e)
     //todo 查看发票详情
-    let receiptId = currentTarget.dataset.id
+    let receiptId = e.currentTarget.dataset.id
     wx.navigateTo({
       url:"../invoiceDetail/invoiceDetail?invoiceId="+receiptId
     })
