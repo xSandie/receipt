@@ -4,7 +4,7 @@ App({
     // 登录
     wx.login({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        // todo 登陆，发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
   },
@@ -17,5 +17,6 @@ App({
       title:"发票抬头",
       sum:"点击选择发票抬头"
     },//选择的发票抬头
+    sessionId:""//用户标识符
   }
 })

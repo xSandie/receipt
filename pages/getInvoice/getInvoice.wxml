@@ -1,4 +1,63 @@
 <!--开票页面-->
 <view class="container">
-
+    <form bindsubmit="getInvoice">
+    <view class="white-card row" style="align-items: center;">
+<!--        发票抬头-->
+        <view bindtap="chooseTitle">
+            <view class="font-32 black-fg displayArea">{{title.title}}</view>
+            <view class="text-margin"></view>
+            <view class="font-24 unimportant-grey displayArea">{{title.summary}}</view>
+        </view>
+        <view>
+            <image class="arrow-icon" src="{{icon.arrow}}"></image>
+        </view>
+    </view>
+        <view class="margin-bar"></view>
+    <view class="white-card">
+        <view class="moneyArea">
+<!--            金额区域-->
+            <view class="enterMoney font-32 black-fg">
+                <text style="display: inline" >开票金额：</text>
+                <input placeholder="{{invoiceMoney}}" style="width: 400rpx;display: inline" class="moneyInput" name="money" bindblur="inputMoneyChanged" type="number"/>
+            </view>
+            <view class="text-margin"></view>
+            <view class="font-24 unimportant-grey">
+                <text>票面金额：{{totalMoney}}元</text>
+            </view>
+        </view>
+        <view class="text-margin"></view>
+        <view class="text-margin"></view>
+        <view class="text-margin"></view>
+        <view class="text-margin"></view>
+        <view bindtap="chooseType" class="choiceArea">
+<!--            选择电子和纸质的区域-->
+            <view data-type="paper" class="chooseBtn font-32 {{paperFlag?'btnChosen':''}}">
+                纸质发票
+            </view>
+            <view data-type="electron" class="chooseBtn font-32 {{paperFlag?'':'btnChosen'}}">
+                电子发票
+            </view>
+        </view>
+        <view class="text-margin"></view>
+        <view class="text-margin"></view>
+        <view class="text-margin"></view>
+        <view class="text-margin"></view>
+        <view class="receiveArea">
+<!--            接收区域-->
+            <view class="font-24 unimportant-grey">
+                <text wx:if="{{paperFlag}}">邮寄地址</text>
+                <text wx:else>接收邮箱</text>
+            </view>
+            <view class="text-margin"></view>
+            <view class="receiveDetail">
+                <input class="inputLine" type="text" name="address" wx:if="{{paperFlag}}" placeholder="{{hint.paper}}"/>
+<!--                纸质的邮寄地址-->
+                <input class="inputLine" type="text" name="email" wx:else placeholder="{{hint.elect}}"/>
+<!--                电子的邮箱-->
+            </view>
+        </view>
+    </view>
+        <view class="margin-bar"></view>
+        <button class="" size="default" type="primary" form-type="submit">确认开票</button>
+    </form>
 </view>

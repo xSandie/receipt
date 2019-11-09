@@ -1,1 +1,50 @@
-/* pages/getInvoice/getInvoice.wxss */
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.text-margin{
+    height: 6rpx;
+}
+
+.displayArea{
+    box-sizing: border-box;
+    width: 500rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.arrow-icon{
+    margin-top: 10rpx;
+    width: 40rpx;
+    height: 40rpx;
+}
+.enterMoney{
+    display: flex;
+    align-items: center;
+}
+
+.choiceArea{
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.chooseBtn{
+    display:flex;
+    border: var(--unimportantGrey) solid 2rpx;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 290rpx;
+    height: 100rpx;
+    border-radius: 16rpx;
+}
+
+.btnChosen{
+    border: var(--defaultGreen) solid 2rpx;
+    color: var(--defaultGreen);
+}

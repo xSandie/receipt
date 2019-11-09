@@ -6,14 +6,14 @@ Page({
    */
   data: {
     title:{
-      //todo 改成正式的
-      title:"陕西师范大学（名称）",
-      taxNumb:"税号x1231244343423",
-      address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
-      companyPhone:"电话号码",
-      bank:"开户银行",
-      bankAccount:"银行账户11111",
-      email:"邮箱345592674@qq.com"
+      title:"单位名称（必填）",
+      taxNumb:"纳税人识别号（必填）",
+      address:"单位地址（专票必填）",
+      companyPhone:"单位电话（专票必填）",
+      bank:"开户银行（专票必填）",
+      bankAccount:"银行账户（专票必填）",
+      email:"邮箱（必填）",
+      name:"姓名（必填）",
     },
     isCompany:true
   },
@@ -96,5 +96,29 @@ Page({
         isCompany:true
       })
     }
+  },
+  useWxHeader:function () {
+    // 选择微信抬头
+    let that = this
+    wx.chooseInvoiceTitle({
+      success(res) {
+        console.log(res)
+        if (res.type == 1){
+          //todo 个人抬头
+          that.setData({
+            isCompany:false,
+            "title.name":res
+          })
+        } else{
+          //todo 企业抬头
+          that.setData({
+            isCompany:true
+          })
+        }
+      }
+    })
+  },
+  submitEditedTitle:function (e) {
+    //todo 提交修改抬头请求
   }
 })
