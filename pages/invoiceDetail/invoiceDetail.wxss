@@ -1,1 +1,30 @@
-/* pages/invoiceDetail/invoiceDetail.wxss */
+.text-margin{
+    height: 6rpx;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.arrow-icon{
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.title{
+    box-sizing: border-box;
+    width: 500rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.title1{
+    box-sizing: border-box;
+    width: 600rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

@@ -1,2 +1,69 @@
-<!--pages/invoiceDetail/invoiceDetail.wxml-->
-<text>pages/invoiceDetail/invoiceDetail.wxml</text>
+<view class="container">
+    <form bindsubmit="send2mail">
+        <view bindtap="changeTitle" class="white-card row">
+<!--            抬头信息-->
+            <view>
+                <view class="title font-32 black-fg">发票抬头：{{title.title}}</view>
+                <view wx:for="{{title.details}}" class="details font-24 unimportant-grey title">
+                    <view class="text-margin"></view>
+                    <view>{{item}}</view>
+                </view>
+            </view>
+            <view style="display: flex;flex-direction: row;align-items: center;">
+                <view class="unimportant-grey font-22">修改</view>
+                <image class="arrow-icon" src="{{icon.arrow}}"></image>
+            </view>
+        </view>
+        <view wx:if="{{haveImg}}">
+<!--            发票图片-->
+            <view class="margin-bar"></view>
+            <image class="invoiceImg" src="{{invoiceImg}}"></image>
+        </view>
+        <view class="margin-bar"></view>
+        <view class="white-card">
+<!--            开票信息-->
+            <view class="unimportant-grey font-24">开票金额</view>
+            <view class="text-margin"></view>
+            <view class="font-32 black-fg">{{invoice.money}}元</view>
+            <view class="text-margin"></view>
+            <view class="text-margin"></view>
+
+            <view class="unimportant-grey font-24">申请开票时间</view>
+            <view class="text-margin"></view>
+            <view class="font-32 black-fg">{{invoice.time}}</view>
+            <view class="text-margin"></view>
+            <view class="text-margin"></view>
+
+            <view wx:if="{{paperInvoice}}" bindlongpress="copyExpCode">
+                <view class="unimportant-grey font-24">邮寄地址</view>
+                <view class="text-margin"></view>
+                <view class="font-32 black-fg title1">{{invoice.address}}</view>
+                <view class="text-margin"></view>
+                <view class="text-margin"></view>
+                <view class="unimportant-grey font-24">快递单号·长按复制</view>
+                <view class="text-margin"></view>
+                <view class="font-32 black-fg title1">{{invoice.expressCode}}元</view>
+                <view class="text-margin"></view>
+                <view class="text-margin"></view>
+            </view>
+
+            <view wx:else>
+                <view class="unimportant-grey font-24">接收邮箱</view>
+                <view class="text-margin"></view>
+                <input class="font-32 black-fg" type="text" placeholder="{{invoice.mail}}"/>
+                <view class="text-margin"></view>
+                <view class="text-margin"></view>
+            </view>
+
+
+        </view>
+        <view class="margin-bar"></view>
+        <view class="btnArea">
+            <view wx:if="{{!paperInvoice}}">
+                <button form-type="submit" type="primary" >发送到邮箱</button>
+                <view class="margin-bar"></view>
+            </view>
+            <button bindtap="refund">退款</button>
+        </view>
+    </form>
+</view>

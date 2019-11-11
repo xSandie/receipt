@@ -1,10 +1,11 @@
 {
   "pages": [
+    "pages/invoiceDetail/invoiceDetail",
     "pages/getInvoice/getInvoice",
     "pages/index/index",
     "pages/chooseTitle/chooseTitle",
     "pages/historyReceipt/historyReceipt",
-    "pages/invoiceDetail/invoiceDetail",
+    
     
     "pages/titleEdit/titleEdit",
     "pages/titleDisplay/titleDisplay"

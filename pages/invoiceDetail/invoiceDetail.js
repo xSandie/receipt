@@ -5,6 +5,26 @@ Page({
    * 页面的初始数据
    */
   data: {
+    invoiceId:null,
+    title:{
+      id:null,
+      title:"陕西师范大学",
+      details:["税号：2323523464556456X","开户行：招商银行陕西师大路分行",""]
+    },
+    icon:{
+      arrow:"../../images/index/arrow.png"
+    },
+
+    haveImg:false,//是否有发票图片
+    invoiceImg:null,//发票图片地址
+    paperInvoice:false,//是否纸质发票
+    invoice:{
+      money:15.00,//发票金额
+      address:"深圳市龙华区龙华高级中学",
+      expressCode:"SF23423413245",
+      mail:"345592674@qq.com",
+      time:"2019-10-08"
+    }
 
   },
 
@@ -13,7 +33,10 @@ Page({
    */
   onLoad: function (options) {
     var invoiceId = options.invoiceId
-    //todo 请求发票详情
+    this.setData({
+      invoiceId:invoiceId
+    })
+    //todo 请求发票详情，修改导航栏文字
   },
 
   /**
@@ -63,5 +86,18 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  changeTitle:function () {
+    //todo 修改抬头
+  },
+  send2mail:function (e) {
+    //todo 发送电子发票到邮箱
+  },
+  copyExpCode:function (e) {
+    //todo 长按复制快递单号
+    console.log(e)
+  },
+  refund:function () {
+    //todo 退款
   }
 })

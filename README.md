@@ -14,14 +14,8 @@
 {
 	"code": 0,
 	"msg": "成功",
-	"serialNo": "00020190903154129747863546801863546801863546801",
-	"infoKind": "",
-	"notes": "",
-	"sumMoney": 0.0,
-	"remark1": "",
-	"remark2": "",
 	"data": {
-    "sessionId":"用户标识符"
+        "sessionId":"用户标识符"
   }	
 }
 ```
