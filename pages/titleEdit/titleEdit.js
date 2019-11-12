@@ -12,7 +12,7 @@ Page({
       companyPhone:"单位电话（专票必填）",
       bank:"开户银行（专票必填）",
       bankAccount:"银行账户（专票必填）",
-      email:"邮箱（必填）",
+      email:"邮箱（个人抬头必填）",
       name:"姓名（必填）",
     },
     isCompany:true
@@ -120,5 +120,6 @@ Page({
   },
   submitEditedTitle:function (e) {
     //todo 提交修改抬头请求
+    console.log(e)
   }
 })

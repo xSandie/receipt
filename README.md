@@ -58,7 +58,7 @@
 | 参数      | 可空  | 类型   | 描述       |
 | --------- | ----- | ------ | ---------- |
 | sessionId | False | String | 用户标识符 |
-| page      | False | String | 发票抬头id |
+| titleId   | False | String | 发票抬头id |
 
 ### 2. 返回数据
 
@@ -106,21 +106,34 @@
 
 ## 四、修改抬头 POST
 
+> 说明：此处与发票详情页面的修改抬头不同
+
 ### 1. 请求参数
 
 - 企业抬头
 
-| 参数      | 可空  | 类型   | 描述                               |
-| --------- | ----- | ------ | ---------------------------------- |
-| sessionId | False | String | 用户标识符                         |
-| titleId   | True  | String | 抬头id，若为新增抬头，则没有此参数 |
-| type      | False | String | 可选值 company \| person           |
-|           |       |        |                                    |
-|           |       |        |                                    |
-|           |       |        |                                    |
-|           |       |        |                                    |
-|           |       |        |                                    |
-|           |       |        |                                    |
+| 参数         | 可空  | 类型   | 描述                                         |
+| ------------ | ----- | ------ | -------------------------------------------- |
+| sessionId    | False | String | 用户标识符                                   |
+| titleId      | True  | String | 抬头id，若为新增抬头，则此参数为空字符串，"" |
+| type         | False | String | 可选值 company \| person                     |
+| title        | False | String | 发票抬头（名称）                             |
+| taxNumb      | False | String | 税号                                         |
+| bankAccount  | True  | String | 银行账户，为空时传空字符串，""               |
+| bank         | True  | String | 开户银行，为空时传空字符串，""               |
+| address      | True  | String | 单位地址，为空时传空字符串，""               |
+| companyPhone | True  | String | 单位电话，为空时传空字符串，""               |
+| email        | True  | String | 邮箱，为空时传空字符串，""                   |
+
+- 个人抬头
+
+| 参数      | 可空  | 类型   | 描述                                         |
+| --------- | ----- | ------ | -------------------------------------------- |
+| sessionId | False | String | 用户标识符                                   |
+| titleId   | True  | String | 抬头id，若为新增抬头，则此参数为空字符串，"" |
+| type      | False | String | 可选值 company \| person                     |
+| title     | False | String | 发票抬头（名称）                             |
+| email     | False | String | 邮箱，不可不填                               |
 
 ### 2. 返回数据
 
@@ -133,7 +146,76 @@
 }
 ```
 
-## 五、请求发票详情
+## 五、请求发票详情 GET
+
+### 1. 请求参数
+
+| 参数      | 可空  | 类型   | 描述       |
+| --------- | ----- | ------ | ---------- |
+| sessionId | False | String | 用户标识符 |
+| invoiceId | False | String | 发票id     |
+
+### 2. 返回数据
+
+- 企业发票
+
+```json
+{
+	"code": 0,
+	"msg": "成功",
+	"data": {
+    "type":"paper | electronic", // 纸质发票或电子发票
+    "title":{
+      "title":"陕西师范大学",
+      "details":{
+        "taxNumb":"2323523464556456X",
+        //以下字段为空时，填空字符串
+        "bankAccount":"银行账户",
+        "bank":"开户行",
+        "address":"单位地址",
+        "companyPhone":"单位电话",
+        "email":"邮箱",
+      }
+    },
+    "invoice":{
+      "money":15.00,//发票金额
+      "time":"2019-10-08", //申请开票时间
+      //纸质发票有以下两个字段
+      "address":"深圳市龙华区龙华高级中学", //发票邮寄地址
+      "expressCode":"SF23423413245", //快递单号，若无则为"暂无"
+      //电子发票有以下一个字段
+      "mail":"345592674@qq.com"  //接收邮箱
+    }
+  }	
+}
+```
+
+- 个人发票
+
+```json
+{
+	"code": 0,
+	"msg": "成功",
+	"data": {
+    "type":"paper | electronic", // 纸质发票或电子发票
+    "title":{
+      "title":"向书晗",
+      "details":{
+        "mail":"345592674@qq.com"
+      }
+    },
+    "invoice":{
+      "money":15.00, //发票金额
+      "time":"2019-10-08", //申请开票时间
+      //纸质发票有以下两个字段
+      "address":"深圳市龙华区龙华高级中学", //发票邮寄地址
+      "expressCode":"SF23423413245", //快递单号，若无则为"暂无"
+      //电子发票有以下一个字段
+      "mail":"345592674@qq.com"  //接收邮箱
+    }
+  }	
+}
+```
 
 ## 六、历史发票中，请求可供筛选的年月数组
 
