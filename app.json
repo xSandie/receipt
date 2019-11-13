@@ -1,13 +1,15 @@
 {
   "pages": [
+    "pages/titleEdit/titleEdit",
     "pages/index/index",
+    
     "pages/invoiceDetail/invoiceDetail",
     "pages/getInvoice/getInvoice",
     
     "pages/chooseTitle/chooseTitle",
     "pages/historyReceipt/historyReceipt",
     
-    "pages/titleEdit/titleEdit",
+    
     "pages/titleDisplay/titleDisplay"
   ],
   "window": {

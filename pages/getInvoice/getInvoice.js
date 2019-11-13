@@ -5,9 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    code:"",//绑定的订单
       paperFlag:true,//是否纸质发票
     totalMoney:"23.00",
     invoiceMoney:"23.00元",
+    sendInvoiceMoney:23.00,
     title:{
         title: "选择抬头",
       summary:"点此选择、添加或编辑发票抬头",
@@ -26,7 +28,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+      var that = this
       if (options.code){
+        let order_code = options.code
+        this.setData({
+          code:order_code
+        })
         //todo 请求开票详细数据
 
       }

@@ -297,4 +297,83 @@
 
 ## 十、开票接口 POST
 
+### 1. 请求参数
 
+> 说明：开票时，不允许用户单独为发票设置新抬头，只允许直接选择抬头或者添加抬头后选择抬头（允许用户后来更改抬头，设计数据库时建议发票表也带上抬头的字段可设置成jsonb字段）
+
+- 纸质发票
+
+| 参数         | 可空  | 类型   | 描述                                          |
+| ------------ | ----- | ------ | --------------------------------------------- |
+| sessionId    | False | String | 用户标识符                                    |
+| type         | False | String | 电子发票或纸质发票，可选值paper \| electronic |
+| titleId      | False | String | 抬头id                                        |
+| sendAddress  | False | String | 寄送地址                                      |
+| invoiceMoney | False | Float  | 开票金额                                      |
+| code         | False | String | 绑定的订单编码                                |
+
+- 电子发票
+
+| 参数         | 可空  | 类型   | 描述                                          |
+| ------------ | ----- | ------ | --------------------------------------------- |
+| sessionId    | False | String | 用户标识符                                    |
+| type         | False | String | 电子发票或纸质发票，可选值paper \| electronic |
+| titleId      | False | String | 抬头id                                        |
+| sendMail     | False | String | 接收发票的邮箱                                |
+| invoiceMoney | False | Float  | 开票金额                                      |
+| code         | False | String | 绑定的订单编码                                |
+
+### 2. 返回数据
+
+```json
+{
+	"code": 0,
+	"msg": "成功",
+	"data": {}
+  }	
+}
+```
+
+
+
+## 十一、发票详情页面修改抬头 POST
+
+### 1. 请求参数
+
+- 企业抬头
+
+| 参数         | 可空  | 类型   | 描述                                         |
+| ------------ | ----- | ------ | -------------------------------------------- |
+| sessionId    | False | String | 用户标识符                                   |
+| invoiceId    | True  | String | 抬头id，若为新增抬头，则此参数为空字符串，"" |
+| type         | False | String | 可选值 company \| person                     |
+| title        | False | String | 发票抬头（名称）                             |
+| taxNumb      | False | String | 税号                                         |
+| bankAccount  | True  | String | 银行账户，为空时传空字符串，""               |
+| bank         | True  | String | 开户银行，为空时传空字符串，""               |
+| address      | True  | String | 单位地址，为空时传空字符串，""               |
+| companyPhone | True  | String | 单位电话，为空时传空字符串，""               |
+| email        | True  | String | 邮箱，为空时传空字符串，""                   |
+
+- 个人抬头
+
+| 参数      | 可空  | 类型   | 描述                     |
+| --------- | ----- | ------ | ------------------------ |
+| sessionId | False | String | 用户标识符               |
+| invoiceId | False | String | 绑定的发票id             |
+| type      | False | String | 可选值 company \| person |
+| title     | False | String | 发票抬头（名称）         |
+| email     | False | String | 邮箱，不可不填           |
+
+### 2. 返回数据
+
+```json
+{
+	"code": 0,
+	"msg": "成功",
+	"data": {	
+  }	
+}
+```
+
+## 
