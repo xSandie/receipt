@@ -1,15 +1,14 @@
 {
   "pages": [
-    "pages/titleEdit/titleEdit",
     "pages/index/index",
-    
+    "pages/titleEdit/titleEdit",
+
     "pages/invoiceDetail/invoiceDetail",
     "pages/getInvoice/getInvoice",
     
     "pages/chooseTitle/chooseTitle",
     "pages/historyReceipt/historyReceipt",
-    
-    
+
     "pages/titleDisplay/titleDisplay"
   ],
   "window": {

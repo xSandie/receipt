@@ -1,11 +1,13 @@
 // pages/invoiceDetail/invoiceDetail.js发票详情
+const urlModel = require('../../utils/urlSet.js');
+let app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    invoiceId:null,
+    invoiceId:null, //发票详情id
     title:{
       id:null,
       title:"陕西师范大学",
@@ -89,6 +91,10 @@ Page({
   },
   changeTitle:function () {
     //todo 修改抬头
+    let that = this
+    wx.navigateTo({
+      url:"../titleEdit/titleEdit?page_from="+"invoice&" + "id=" + that.data.invoiceId
+    })
   },
   send2mail:function (e) {
     //todo 发送电子发票到邮箱

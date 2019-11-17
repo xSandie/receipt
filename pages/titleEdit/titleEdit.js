@@ -28,6 +28,9 @@ Page({
           var titleId = options.id
           //todo 请求发票抬头详细信息填充 判断是否是企业抬头
 
+        }else if(options.page_from === "invoice"){
+          var invoiceId = options.id
+          //todo 请求发票抬头详情并填充
         }
       }
   },

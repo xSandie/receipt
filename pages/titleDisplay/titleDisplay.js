@@ -1,4 +1,6 @@
 // pages/titleDisplay/titleDisplay.js
+const urlModel = require('../../utils/urlSet.js');
+let app = getApp()
 Page({
 
   /**
@@ -8,13 +10,13 @@ Page({
     isCompany:true,  //判断是不是公司抬头
     titleId:"发票抬头id",
     title:{
-      title:"陕西师范大学（名称）",
-      taxNumb:"税号x1231244343423",
-      address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
-      companyPhone:"电话号码",
-      bank:"开户银行",
-      bankAccount:"银行账户11111",
-      email:"邮箱345592674@qq.com"
+      // title:"陕西师范大学（名称）",
+      // taxNumb:"税号x1231244343423",
+      // address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
+      // companyPhone:"电话号码",
+      // bank:"开户银行",
+      // bankAccount:"银行账户11111",
+      // email:"邮箱345592674@qq.com"
     },
     showChooseBtn:false
   },
@@ -36,7 +38,28 @@ Page({
       }
     }
     //todo 请求发票抬头详细信息
-
+    let titleId = options.id
+    this.setData({
+      titleId
+    })
+    wx.request({
+      url: urlModel.url.InvoiceTitleDetail,
+      data: {
+        "sessionId":app.globalData.sessionId,
+        "titleId":titleId
+      },
+      method:"POST",
+      success: function(res) {
+        //todo
+        console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data
+          console.log(data)
+        }else{
+          //todo 失败
+        }
+      }
+    })
   },
 
   /**

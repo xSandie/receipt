@@ -1,4 +1,5 @@
 const app = getApp()
+const urlModel = require('../../utils/urlSet.js');
 Page({
 
   /**
@@ -11,18 +12,42 @@ Page({
       add:"../../images/index/add.png",
       arrow:"../../images/index/arrow.png"
     },
-    titles:[{
-      id:"1",  //根据type判断js添加啥字样
-      title:"向书晗陕西师范大学陕西师范大学陕西师范大学陕西师范大学",
-      detail:"邮箱：345592674@qq.com"  //太长做截取处理
-    },]
+    titles:[
+        // {
+        //   id:"1",  //根据type判断js添加啥字样
+        //   title:"向书晗陕西师范大学陕西师范大学陕西师范大学陕西师范大学",
+        //   detail:"邮箱：345592674@qq.com"  //太长做截取处理
+        // },
+    ],
+    page:0,//todo 用于分页
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     //todo 展示发票抬头列表
+    wx.request({
+      url: urlModel.url.InvoiceTitleList,
+      data: {
+        "sessionId":app.globalData.sessionId,
+        "page":that.data.page
+      },
+      method:"POST",
+      success: function(res) {
+        // console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data
+          console.log(data)
+          that.setData({
+            titles:data.titles
+          })
+        }else{
+          //todo 失败
+        }
+      }
+    })
   },
 
   /**
