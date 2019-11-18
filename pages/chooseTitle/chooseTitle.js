@@ -1,5 +1,7 @@
 // pages/chooseTitle/chooseTitle.js选择发票抬头
 // todo 1.时间降序排列抬头 2.每次显示重新请求抬头 3.下拉刷新
+const app = getApp()
+const urlModel = require('../../utils/urlSet.js');
 Page({
 
   /**
@@ -13,7 +15,7 @@ Page({
       arrow:"../../images/index/arrow.png"
     },
     titles:[{
-      id:"1",  //根据type判断js添加啥字样
+      id:"zwk",  //根据type判断js添加啥字样
       title:"向书晗陕西师范大学陕西师范大学陕西师范大学陕西师范大学",
       detail:"邮箱：345592674@qq.com"  //太长做截取处理
     },]
@@ -76,7 +78,7 @@ Page({
   },
   addTitle:function () {
     wx.navigateTo({
-      url:"../titleEdit/titleEdit"
+      url:"../titleEdit/titleEdit?from_page=choose"
     })
   },
   toTitleDisplay: function (e) {

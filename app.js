@@ -35,9 +35,8 @@ App({
     chosenTitle:{
       haveSet:false, //判断是否设置过发票抬头了
       isCompany:false, //判断是否是企业抬头
-      titleId:1,
+      titleId:null,
       title:"发票抬头",
-      sum:"点击选择发票抬头"
     },//选择的发票抬头
     sessionId:""//用户标识符
   }

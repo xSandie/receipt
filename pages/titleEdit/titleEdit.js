@@ -1,4 +1,6 @@
 // pages/titleEdit/titleEdit.js编辑发票抬头
+const app = getApp()
+const urlModel = require('../../utils/urlSet.js');
 Page({
 
   /**
@@ -23,15 +25,18 @@ Page({
    */
   onLoad: function (options) {
       if (options.page_from){
-        if (options.page_from === "display") {
+        var from_page = options.page_from
+        if (from_page === "display") {
           //从展示页面过来，携带抬头id
           var titleId = options.id
           //todo 请求发票抬头详细信息填充 判断是否是企业抬头
 
-        }else if(options.page_from === "invoice"){
+        }else if(from_page === "invoice"){
           var invoiceId = options.id
           //todo json解码发票抬头详情并填充，type，detail
 
+        }else if (from_page === "choose") {
+          // 选择抬头页面过来
         }
       }
   },
@@ -125,5 +130,10 @@ Page({
   submitEditedTitle:function (e) {
     //todo 提交修改抬头请求
     console.log(e)
+
+    // 成功，返回上一页
+    wx.navigateBack()
+
+
   }
 })

@@ -10,13 +10,13 @@ Page({
     isCompany:true,  //判断是不是公司抬头
     titleId:"发票抬头id",
     title:{
-      // title:"陕西师范大学（名称）",
-      // taxNumb:"税号x1231244343423",
-      // address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
-      // companyPhone:"电话号码",
-      // bank:"开户银行",
-      // bankAccount:"银行账户11111",
-      // email:"邮箱345592674@qq.com"
+      title:"陕西师范大学（名称）",
+      taxNumb:"税号x1231244343423",
+      address:"单位地址陕西省西安市长安区吧啦吧啦吧啦",
+      companyPhone:"电话号码",
+      bank:"开户银行",
+      bankAccount:"银行账户11111",
+      email:"345592674@qq.com" // 为空则无字段
     },
     showChooseBtn:false
   },
@@ -28,9 +28,11 @@ Page({
       // 判断是否展示选择按钮
     if (options.from_page){
       if (options.from_page === "choose") {
+        //从选择页面过来
         this.setData({
           showChooseBtn:true
         })
+        app.globalData.chosenTitle.haveSet = false
       }else {
         this.setData({
           showChooseBtn:false
@@ -122,12 +124,21 @@ Page({
       content:"确定删除此发票抬头？",
       success(res) {
         if (res.confirm){
-          //删除此条抬头
+          //todo 删除此条抬头
         }
       }
     })
   },
   chooseTitle:function () {
     //todo 选择抬头，设置全局抬头id
+    let that = this
+    Object.keys(that.data.title).forEach((key)=>{
+      let data = that.data.title[key];
+      app.globalData.chosenTitle[key] = data;
+    })
+    app.globalData.chosenTitle.titleId = that.data.titleId
+    app.globalData.chosenTitle.haveSet = true
+    app.globalData.chosenTitle.isCompany = that.data.isCompany
+    wx.navigateBack()
   }
 })

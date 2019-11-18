@@ -1,4 +1,6 @@
 // pages/getInvoice/getInvoice.js开发票
+const app = getApp()
+const urlModel = require('../../utils/urlSet.js');
 Page({
 
   /**
@@ -13,7 +15,7 @@ Page({
     title:{
         title: "选择抬头",
       summary:"点此选择、添加或编辑发票抬头",
-      id:null
+      id:null //需要传给后端
     },
     icon:{
       arrow:"../../images/index/arrow.png"
@@ -50,7 +52,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+      if (app.globalData.chosenTitle.haveSet){
+        //todo 填充字段
+        let that = this
+        if (app.globalData.chosenTitle.isCompany){
+          this.setData({
+            'title.title':app.globalData.chosenTitle.title,
+            "title.summary":app.globalData.chosenTitle.taxNumb,
+            "title.id":app.globalData.chosenTitle.titleId
+          })
+        } else {
+          this.setData({
+            'title.title':app.globalData.chosenTitle.title,
+            "title.summary":app.globalData.chosenTitle.mail,
+            "title.id":app.globalData.chosenTitle.titleId
+          })
+        }
 
+      }
   },
 
   /**
@@ -95,7 +114,10 @@ Page({
     //todo 开发票，提示请求已提交，然后返回
   },
   chooseTitle:function () {
-    //todo 选择抬头
+    // 选择抬头
+    wx.navigateTo({
+      url:"../chooseTitle/chooseTitle"
+    })
   },
   chooseType:function (e) {
     // 选择纸质发票或者电子发票

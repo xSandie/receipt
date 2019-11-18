@@ -1,4 +1,6 @@
 // pages/historyReceipt/historyReceipt.js历史发票
+const app = getApp()
+const urlModel = require('../../utils/urlSet.js');
 Page({
 
   /**
