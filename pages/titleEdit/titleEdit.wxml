@@ -1,7 +1,7 @@
-<view class="container">
+<view wx:if="{{adding}}" class="container">
     <view class="title-area font-30 unimportant-grey">
         <view>发票抬头</view>
-        <view class="font-30" wx:if="{{showUseWxBtn}}" style="color:#5cb24a;" bindtap="useWxHeader">使用微信抬头</view>
+        <view class="font-30" style="color:#5cb24a;" bindtap="useWxHeader">使用微信抬头</view>
     </view>
     <view class="white-card">
         <view class="row black-fg font-32">
@@ -14,6 +14,88 @@
     </view>
     <view class="margin-bar"></view>
     <form bindsubmit="addTitle">
+    <view wx:if="{{isCompany}}">
+        <view class="white-card">
+            <view class="row black-fg font-32">
+                <view class="name">名 称</view>
+                <view class="content"><input name="name-com" type="text" placeholder="{{title.title}}"/></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>税 号</text></view>
+                <view class="content"><input name="taxNumb-com" type="text" placeholder="{{title.taxNumb}}"/></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>单位地址</text></view>
+                <view class="content"><input name="address-com" type="text" placeholder="{{title.address}}"/></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>电话号码</text></view>
+                <view class="content"><input name="companyPhone-com" type="number" placeholder="{{title.companyPhone}}"/></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>开户银行</text></view>
+                <view class="content"><input name="bank-com" type="text" placeholder="{{title.bank}}"/></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>银行账户</text></view>
+                <view class="content"><input name="bankAccount-com" type="text" placeholder="{{title.bankAccount}}"/></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>邮 箱</text></view>
+                <view class="content"><input name="email-com" type="text" placeholder="{{title.email}}"/></view>
+            </view>
+        </view>
+    </view>
+    <view wx:else>
+        <view class="white-card">
+            <view class="row black-fg font-32">
+                <view class="name">姓 名</view>
+                <view class="content"><input name="name-private" type="text" placeholder="{{title.name}}"/></view>
+            </view>
+            <view class="rline"></view>
+            <view class="row black-fg font-32">
+                <view class="name"><text>邮 箱</text></view>
+                <view class="content"><input name="email-private" type="text" placeholder="{{title.email}}"/></view>
+            </view>
+        </view>
+    </view>
+<!--        <view class="margin-bar"></view>-->
+<!--        <view class="white-card">-->
+<!--&lt;!&ndash;            开票金额&ndash;&gt;-->
+<!--            <view class="row black-fg font-32">-->
+<!--                <view class="name"><text>开票金额</text></view>-->
+<!--                <view class="content"><input name="price" type="text" placeholder="{{title.email}}"/></view>-->
+<!--            </view>-->
+<!--            <view class="rline"></view>-->
+<!--            <view class="row black-fg font-32">-->
+<!--                <view class="name"><text>可开金额</text></view>-->
+<!--                <view class="content"><input name="totalPrice" type="text" placeholder="{{title.email}}"/></view>-->
+<!--            </view>-->
+<!--        </view>-->
+        <button form-type="submit" style="margin-top: 20rpx;width: 100%;" type="primary">完成</button>
+    </form>
+</view>
+<view wx:else class="container">
+    <view class="title-area font-30 unimportant-grey">
+        <view>发票抬头</view>
+    </view>
+    <view class="white-card">
+        <view class="row black-fg font-32">
+            <view class="name"><text>发票类型</text></view>
+            <view class="type-choose" bindtap="chooseType">
+                <view class="choose-box {{isCompany? 'box-choosed' : ''}}" data-id="company">企业</view>
+                <view class="choose-box {{isCompany? '' : 'box-choosed'}}" data-id="private">个人</view>
+            </view>
+        </view>
+    </view>
+    <view class="margin-bar"></view>
+    <form bindsubmit="submitEditedTitle">
     <view wx:if="{{isCompany}}">
         <view class="white-card">
             <view class="row black-fg font-32">

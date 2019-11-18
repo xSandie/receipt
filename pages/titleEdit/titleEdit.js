@@ -9,7 +9,7 @@ Page({
    */
   data: {
     title:{
-      id:null,
+      id:"",
       title:"单位名称（必填）",
       taxNumb:"纳税人识别号（必填）",
       address:"单位地址（专票必填）",
@@ -20,7 +20,7 @@ Page({
       name:"姓名（必填）",
     },
     isCompany:true,
-    showUseWxBtn:true
+    adding:true,//判断是在编辑 还是在添加
   },
   defaultData:{
     title:{//用来判断表单是否填写过
@@ -46,15 +46,16 @@ Page({
           var titleId = options.id;
           //禁止使用微信抬头，以免造成混乱
           this.setData({
-            showUseWxBtn:false
+            adding:false
           })
           //todo 请求发票抬头详细信息填充 判断是否是企业抬头
 
         }else if(from_page === "invoice"){
+          //从发票详情过来
           var invoiceId = options.id;
           //禁止使用微信抬头，以免造成混乱
           this.setData({
-            showUseWxBtn:false
+            adding:false
           })
           //todo json解码发票抬头详情并填充，type，detail
 
@@ -62,7 +63,7 @@ Page({
       } else{
         //添加页面过来
         this.setData({
-          showUseWxBtn:true
+          adding:true
         })
       }
   },
@@ -151,7 +152,7 @@ Page({
         url: urlModel.url.InvoiceTitleList,
         data: {
           "sessionId":app.globalData.sessionId,
-          "titleId":"",
+          "titleId":that.data.title.id,
           "type":"company",
           "title":companyName,
           "taxNumb":companyTaxNumb,
@@ -196,7 +197,7 @@ Page({
         url: urlModel.url.InvoiceTitleList,
         data: {
           "sessionId":app.globalData.sessionId,
-          "titleId":"",
+          "titleId":that.data.title.id,
           "type":"person",
           "title":name,
           "email":email
@@ -222,7 +223,7 @@ Page({
     var tabId = e.target.dataset.id;
     console.log(e, tabId);
     //todo 禁止编辑抬头时切换
-    if (this.data.title.id !== null) {
+    if (!this.data.adding) {
       wx.showToast({
         icon:"none",
         title:'若要更改抬头类型，请在首页点击 添加发票抬头'
@@ -263,16 +264,14 @@ Page({
   submitEditedTitle:function (e) {
     let that = this;
     //todo 提交修改抬头请求
-    console.log(e);
-    if (that.data.isCompany){
-      //todo 编辑公司抬头
-
-    }else {
-      //todo 编辑个人抬头
+    // console.log(e);
+    var tmp = {
+      detail:{
+        value:{}
+      }
     }
-    // 成功，返回上一页
-    wx.navigateBack()
-
+    tmp.detail.value = that.fill2fullTitle(e.detail.value)
+    that.addTitle(tmp)
   },
   fill2fullTitle:function (values) {
     //values:表单提交上来的对象
@@ -349,9 +348,9 @@ Page({
             returnValue[key] = values[key]
           }
         }
-        if (key === "taxNumb-com"){
+        if (key === "email-private"){
           if (values[key] === ""){
-            returnValue[key] = that.data.title.taxNumb
+            returnValue[key] = that.data.title.email
           }else{
             returnValue[key] = values[key]
           }
@@ -359,6 +358,6 @@ Page({
       })
     }
     console.log(returnValue)
-
+    return returnValue
   }
 });
