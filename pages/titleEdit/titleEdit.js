@@ -9,6 +9,7 @@ Page({
    */
   data: {
     title:{
+      id:null,
       title:"单位名称（必填）",
       taxNumb:"纳税人识别号（必填）",
       address:"单位地址（专票必填）",
@@ -37,12 +38,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      let that = this
+      let that = this;
       if (options.page_from){
         var from_page = options.page_from;
         if (from_page === "display") {
           //从展示页面过来，携带抬头id
-          var titleId = options.id
+          var titleId = options.id;
           //禁止使用微信抬头，以免造成混乱
           this.setData({
             showUseWxBtn:false
@@ -50,16 +51,19 @@ Page({
           //todo 请求发票抬头详细信息填充 判断是否是企业抬头
 
         }else if(from_page === "invoice"){
-          var invoiceId = options.id
+          var invoiceId = options.id;
           //禁止使用微信抬头，以免造成混乱
           this.setData({
             showUseWxBtn:false
           })
           //todo json解码发票抬头详情并填充，type，detail
 
-        }else if (from_page === "choose") {
-          // 选择抬头页面过来
         }
+      } else{
+        //添加页面过来
+        this.setData({
+          showUseWxBtn:true
+        })
       }
   },
 
@@ -218,7 +222,13 @@ Page({
     var tabId = e.target.dataset.id;
     console.log(e, tabId);
     //todo 禁止编辑抬头时切换
-
+    if (this.data.title.id !== null) {
+      wx.showToast({
+        icon:"none",
+        title:'若要更改抬头类型，请在首页点击 添加发票抬头'
+      });
+      return
+    }
     if (tabId === "private"){
       this.setData({
         isCompany:false
@@ -331,6 +341,22 @@ Page({
       })
     }else {
       //todo 填充个人
+      Object.keys(values).forEach((key)=>{
+        if (key === "name-private") {
+          if (values[key] === ""){
+            returnValue[key] = that.data.title.name
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+        if (key === "taxNumb-com"){
+          if (values[key] === ""){
+            returnValue[key] = that.data.title.taxNumb
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+      })
     }
     console.log(returnValue)
 
