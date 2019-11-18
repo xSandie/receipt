@@ -10,7 +10,7 @@ Page({
     code:"",//绑定的订单
       paperFlag:true,//是否纸质发票
     totalMoney:"23.00",
-    invoiceMoney:"23.00元",
+    invoiceMoney:"23.00",
     sendInvoiceMoney:23.00,
     title:{
         title: "选择抬头",
@@ -110,8 +110,37 @@ Page({
         icon:"none",
         title:'请选择发票抬头'
       })
+      return
+    }
+    if (that.data.paperFlag && e.detail.value.address === ""){
+      wx.showToast({
+        icon:"none",
+        title:'请补全地址信息'
+      })
+      return;
+    }
+    if (!that.data.paperFlag && e.detail.value.email === ""){
+      wx.showToast({
+        icon:"none",
+        title:'请补全邮箱信息'
+      })
+      return;
+    }
+
+    let money = e.detail.value.money
+    if(money === ""){
+      money = that.data.totalMoney //如果没有修改开票金额，填充默认
     }
     //todo 开发票，提示请求已提交，然后返回
+    if (that.data.paperFlag){
+      //todo 纸质发票
+      let address = e.detail.value.address
+
+    }else{
+      //todo 电子发票
+      let mail = e.detail.value.email
+    }
+
   },
   chooseTitle:function () {
     // 选择抬头
