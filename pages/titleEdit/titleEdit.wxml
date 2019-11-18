@@ -1,7 +1,7 @@
 <view class="container">
     <view class="title-area font-30 unimportant-grey">
         <view>发票抬头</view>
-        <view class="font-30" style="color:#5cb24a;" bindtap="useWxHeader">使用微信抬头</view>
+        <view class="font-30" wx:if="{{showUseWxBtn}}" style="color:#5cb24a;" bindtap="useWxHeader">使用微信抬头</view>
     </view>
     <view class="white-card">
         <view class="row black-fg font-32">

@@ -1,5 +1,5 @@
 // pages/titleEdit/titleEdit.js编辑发票抬头
-const app = getApp()
+const app = getApp();
 const urlModel = require('../../utils/urlSet.js');
 const checker = require('../../pkgs/helper/check.js');
 Page({
@@ -18,22 +18,43 @@ Page({
       email:"邮箱（个人抬头必填）",
       name:"姓名（必填）",
     },
-    isCompany:true
+    isCompany:true,
+    showUseWxBtn:true
   },
-
+  defaultData:{
+    title:{//用来判断表单是否填写过
+      title:"单位名称（必填）",
+      taxNumb:"纳税人识别号（必填）",
+      address:"单位地址（专票必填）",
+      companyPhone:"单位电话（专票必填）",
+      bank:"开户银行（专票必填）",
+      bankAccount:"银行账户（专票必填）",
+      email:"邮箱（个人抬头必填）",
+      name:"姓名（必填）",
+    },
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+      let that = this
       if (options.page_from){
-        var from_page = options.page_from
+        var from_page = options.page_from;
         if (from_page === "display") {
           //从展示页面过来，携带抬头id
           var titleId = options.id
+          //禁止使用微信抬头，以免造成混乱
+          this.setData({
+            showUseWxBtn:false
+          })
           //todo 请求发票抬头详细信息填充 判断是否是企业抬头
 
         }else if(from_page === "invoice"){
           var invoiceId = options.id
+          //禁止使用微信抬头，以免造成混乱
+          this.setData({
+            showUseWxBtn:false
+          })
           //todo json解码发票抬头详情并填充，type，detail
 
         }else if (from_page === "choose") {
@@ -91,25 +112,25 @@ Page({
 
   },
   addTitle:function (e) {
-    let that = this
+    let that = this;
     //todo 提交添加抬头请求
-    console.log(e)
+    console.log(e);
     if (that.data.isCompany){
-      var companyName = e.detail.value["name-com"]
-      var companyTaxNumb = e.detail.value["taxNumb-com"]
-      var companyEmail = e.detail.value["email-com"]
+      var companyName = e.detail.value["name-com"];
+      var companyTaxNumb = e.detail.value["taxNumb-com"];
+      var companyEmail = e.detail.value["email-com"];
       if (companyName === ""){
         wx.showToast({
           icon:"none",
           title:'请填写企业名称'
-        })
+        });
         return
       }
       if (companyTaxNumb === "") {
         wx.showToast({
           icon:"none",
           title:'请填写企业税号'
-        })
+        });
         return
       }
       if (companyEmail) {
@@ -117,7 +138,7 @@ Page({
           wx.showToast({
             icon:"none",
             title:'邮箱格式有误'
-          })
+          });
           return;
         }
       }
@@ -140,7 +161,7 @@ Page({
         success: function(res) {
           // console.log(res)
           if (res.data.code === 0){
-            var data = res.data.data
+            var data = res.data.data;
             console.log(data)
           }else{
             //todo 失败
@@ -149,13 +170,13 @@ Page({
       })
 
     }else{
-      var name = e.detail.value["name-private"]
-      var email = e.detail.value["email-private"]
+      var name = e.detail.value["name-private"];
+      var email = e.detail.value["email-private"];
       if (name === "" || email === "") {
         wx.showToast({
           icon:"none",
           title:'请补全信息'
-        })
+        });
         return;
       }
       //todo 校验邮箱是否正确
@@ -163,7 +184,7 @@ Page({
         wx.showToast({
           icon:"none",
           title:'邮箱格式有误'
-        })
+        });
         return;
       }
       // todo 提交个人抬头
@@ -180,7 +201,7 @@ Page({
         success: function(res) {
           // console.log(res)
           if (res.data.code === 0){
-            var data = res.data.data
+            var data = res.data.data;
             console.log(data)
           }else{
             //todo 失败
@@ -194,8 +215,10 @@ Page({
 
   },
   chooseType:function (e) {
-    var tabId = e.target.dataset.id
-    console.log(e, tabId)
+    var tabId = e.target.dataset.id;
+    console.log(e, tabId);
+    //todo 禁止编辑抬头时切换
+
     if (tabId === "private"){
       this.setData({
         isCompany:false
@@ -208,10 +231,10 @@ Page({
   },
   useWxHeader:function () {
     // 选择微信抬头
-    let that = this
+    let that = this;
     wx.chooseInvoiceTitle({
       success(res) {
-        console.log(res)
+        console.log(res);
         if (res.type == 1){
           //todo 个人抬头
           that.setData({
@@ -228,32 +251,88 @@ Page({
     })
   },
   submitEditedTitle:function (e) {
-    let that = this
+    let that = this;
     //todo 提交修改抬头请求
-    console.log(e)
+    console.log(e);
     if (that.data.isCompany){
-      //todo 提交公司抬头
-      var companyName = e.detail.value["name-com"]
-      var companyTaxNumb = e.detail.value["taxNumb-com"]
-      if (companyName === ""){
-        wx.showToast({
-          icon:"none",
-          title:'请填写企业名称'
-        })
-        return
-      }
-      if (companyTaxNumb === "") {
-        wx.showToast({
-          icon:"none",
-          title:'请填写企业税号'
-        })
-        return
-      }
+      //todo 编辑公司抬头
 
+    }else {
+      //todo 编辑个人抬头
     }
     // 成功，返回上一页
     wx.navigateBack()
 
+  },
+  fill2fullTitle:function (values) {
+    //values:表单提交上来的对象
+    let that =this;
+    //todo 根据原有信息填充表单，并返回
+    var returnValue = {};
+    if (that.data.isCompany) {
+      //todo 填充公司
+      Object.keys(values).forEach((key)=>{
+        if (key === "name-com") {
+          if (values[key] === ""){
+            returnValue[key] = that.data.title.title
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+        if (key === "taxNumb-com"){
+          if (values[key] === ""){
+            returnValue[key] = that.data.title.taxNumb
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+        //以上两个字段如果为空则直接通过已经获取到的title进行填充
+        //以下则需要判断data中的title字段值是否与默认值相同
+        if (key === "address-com"){
+          if (values[key] === "" &&
+              that.data.title.address !== that.defaultData.title.address){
+            returnValue[key] = that.data.title.address
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+        if (key === "companyPhone-com"){
+          if (values[key] === "" &&
+              that.data.title.companyPhone !== that.defaultData.title.companyPhone){
+            returnValue[key] = that.data.title.companyPhone
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+        if (key === "bank-com"){
+          if (values[key] === "" &&
+              that.data.title.bank !== that.defaultData.title.bank){
+            returnValue[key] = that.data.title.bank
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+        if (key === "bankAccount-com"){
+          if (values[key] === "" &&
+              that.data.title.bankAccount !== that.defaultData.title.bankAccount){
+            returnValue[key] = that.data.title.bankAccount
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+        if (key === "email-com"){
+          if (values[key] === "" &&
+              that.data.title.email !== that.defaultData.title.email){
+            returnValue[key] = that.data.title.email
+          }else{
+            returnValue[key] = values[key]
+          }
+        }
+      })
+    }else {
+      //todo 填充个人
+    }
+    console.log(returnValue)
 
   }
-})
+});
