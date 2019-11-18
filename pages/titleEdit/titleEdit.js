@@ -1,6 +1,7 @@
 // pages/titleEdit/titleEdit.js编辑发票抬头
 const app = getApp()
 const urlModel = require('../../utils/urlSet.js');
+const checker = require('../../pkgs/helper/check.js');
 Page({
 
   /**
@@ -90,7 +91,106 @@ Page({
 
   },
   addTitle:function (e) {
+    let that = this
+    //todo 提交添加抬头请求
     console.log(e)
+    if (that.data.isCompany){
+      var companyName = e.detail.value["name-com"]
+      var companyTaxNumb = e.detail.value["taxNumb-com"]
+      var companyEmail = e.detail.value["email-com"]
+      if (companyName === ""){
+        wx.showToast({
+          icon:"none",
+          title:'请填写企业名称'
+        })
+        return
+      }
+      if (companyTaxNumb === "") {
+        wx.showToast({
+          icon:"none",
+          title:'请填写企业税号'
+        })
+        return
+      }
+      if (companyEmail) {
+        if (!checker.checkEmail(companyEmail)){
+          wx.showToast({
+            icon:"none",
+            title:'邮箱格式有误'
+          })
+          return;
+        }
+      }
+      //todo 提交公司抬头
+      wx.request({
+        url: urlModel.url.InvoiceTitleList,
+        data: {
+          "sessionId":app.globalData.sessionId,
+          "titleId":"",
+          "type":"company",
+          "title":companyName,
+          "taxNumb":companyTaxNumb,
+          "bankAccount":e.detail.value["bankAccount-com"] || "",
+          "bank":e.detail.value["bank-com"] || "",
+          "address":e.detail.value["address-com"] || "",
+          "companyPhone":e.detail.value["companyPhone-com"] || "",
+          "email":companyEmail || ""
+        },
+        method:"POST",
+        success: function(res) {
+          // console.log(res)
+          if (res.data.code === 0){
+            var data = res.data.data
+            console.log(data)
+          }else{
+            //todo 失败
+          }
+        }
+      })
+
+    }else{
+      var name = e.detail.value["name-private"]
+      var email = e.detail.value["email-private"]
+      if (name === "" || email === "") {
+        wx.showToast({
+          icon:"none",
+          title:'请补全信息'
+        })
+        return;
+      }
+      //todo 校验邮箱是否正确
+      if(!checker.checkEmail(email)){
+        wx.showToast({
+          icon:"none",
+          title:'邮箱格式有误'
+        })
+        return;
+      }
+      // todo 提交个人抬头
+      wx.request({
+        url: urlModel.url.InvoiceTitleList,
+        data: {
+          "sessionId":app.globalData.sessionId,
+          "titleId":"",
+          "type":"person",
+          "title":name,
+          "email":email
+        },
+        method:"POST",
+        success: function(res) {
+          // console.log(res)
+          if (res.data.code === 0){
+            var data = res.data.data
+            console.log(data)
+          }else{
+            //todo 失败
+          }
+        }
+      })
+
+    }
+    // 成功，返回上一页
+    wx.navigateBack()
 
   },
   chooseType:function (e) {
@@ -128,9 +228,29 @@ Page({
     })
   },
   submitEditedTitle:function (e) {
+    let that = this
     //todo 提交修改抬头请求
     console.log(e)
+    if (that.data.isCompany){
+      //todo 提交公司抬头
+      var companyName = e.detail.value["name-com"]
+      var companyTaxNumb = e.detail.value["taxNumb-com"]
+      if (companyName === ""){
+        wx.showToast({
+          icon:"none",
+          title:'请填写企业名称'
+        })
+        return
+      }
+      if (companyTaxNumb === "") {
+        wx.showToast({
+          icon:"none",
+          title:'请填写企业税号'
+        })
+        return
+      }
 
+    }
     // 成功，返回上一页
     wx.navigateBack()
 
