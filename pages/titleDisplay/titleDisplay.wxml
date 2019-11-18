@@ -14,31 +14,46 @@
                 <view class="name"><text>税 号</text></view>
                 <view class="content"><text>{{title.taxNumb}}</text></view>
             </view>
-            <view class="rline"></view>
-            <view class="row black-fg font-32">
-                <view class="name"><text>单位地址</text></view>
-                <view class="content"><text>{{title.address}}</text></view>
+            <view wx:if="{{title.address}}" style="display: flex;flex-direction: column">
+                <view class="rline"></view>
+                <view class="row black-fg font-32">
+                    <view class="name"><text>单位地址</text></view>
+                    <view class="content"><text>{{title.address}}</text></view>
+                </view>
             </view>
-            <view class="rline"></view>
-            <view class="row black-fg font-32">
-                <view class="name"><text>电话号码</text></view>
-                <view class="content"><text>{{title.companyPhone}}</text></view>
+
+            <view wx:if="{{title.companyPhone}}" style="display: flex;flex-direction: column">
+                <view class="rline"></view>
+                <view class="row black-fg font-32">
+                    <view class="name"><text>电话号码</text></view>
+                    <view class="content"><text>{{title.companyPhone}}</text></view>
+                </view>
             </view>
-            <view class="rline"></view>
-            <view class="row black-fg font-32">
-                <view class="name"><text>开户银行</text></view>
-                <view class="content"><text>{{title.bank}}</text></view>
+
+            <view wx:if="{{title.bank}}" style="display: flex;flex-direction: column">
+                <view class="rline"></view>
+                <view class="row black-fg font-32">
+                    <view class="name"><text>开户银行</text></view>
+                    <view class="content"><text>{{title.bank}}</text></view>
+                </view>
             </view>
-            <view class="rline"></view>
-            <view class="row black-fg font-32">
-                <view class="name"><text>银行账户</text></view>
-                <view class="content"><text>{{title.bankAccount}}</text></view>
+
+            <view wx:if="{{title.bankAccount}}" style="display: flex;flex-direction: column">
+                <view class="rline"></view>
+                <view class="row black-fg font-32">
+                    <view class="name"><text>银行账户</text></view>
+                    <view class="content"><text>{{title.bankAccount}}</text></view>
+                </view>
             </view>
-            <view class="rline"></view>
-            <view class="row black-fg font-32">
-                <view class="name"><text>邮 箱</text></view>
-                <view class="content"><text>{{title.email}}</text></view>
+
+            <view wx:if="{{title.email}}" style="display: flex;flex-direction: column">
+                <view class="rline"></view>
+                <view class="row black-fg font-32">
+                    <view class="name"><text>邮 箱</text></view>
+                    <view class="content"><text>{{title.email}}</text></view>
+                </view>
             </view>
+
         </view>
     </view>
     <view wx:else>

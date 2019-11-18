@@ -30,7 +30,8 @@ Page({
 
         }else if(options.page_from === "invoice"){
           var invoiceId = options.id
-          //todo 请求发票抬头详情并填充
+          //todo json解码发票抬头详情并填充，type，detail
+
         }
       }
   },

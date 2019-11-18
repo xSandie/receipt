@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/titleDisplay/titleDisplay",
     "pages/index/index",
     "pages/titleEdit/titleEdit",
 
@@ -7,9 +8,9 @@
     "pages/getInvoice/getInvoice",
     
     "pages/chooseTitle/chooseTitle",
-    "pages/historyReceipt/historyReceipt",
+    "pages/historyReceipt/historyReceipt"
 
-    "pages/titleDisplay/titleDisplay"
+    
   ],
   "window": {
     "backgroundTextStyle": "light",
