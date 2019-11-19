@@ -23,6 +23,16 @@ Page({
     adding:true,//判断是在编辑 还是在添加
   },
   defaultData:{
+    wxTitle:{
+      title: "单位名称（必填）",
+      taxNumb: "纳税人识别号（必填）",
+      address: "单位地址（专票必填）",
+      companyPhone: "单位电话（专票必填）",
+      bank: "开户银行（专票必填）",
+      bankAccount: "银行账户（专票必填）",
+      email: "邮箱（个人抬头必填）",
+      name: "姓名（必填）",
+    },
     title:{//用来判断表单是否填写过
       title:"单位名称（必填）",
       taxNumb:"纳税人识别号（必填）",
@@ -120,6 +130,12 @@ Page({
     let that = this;
     //todo 提交添加抬头请求
     console.log(e);
+
+    if (that.defaultData.wxTitle.title !== that.defaultData.title.title){
+      //todo 使用微信抬头填充e.detail.value
+      that.fill2fullTitleWithWx(e.detail.value)
+    }
+
     if (that.data.isCompany){
       var companyName = e.detail.value["name-com"];
       var companyTaxNumb = e.detail.value["taxNumb-com"];
@@ -149,7 +165,7 @@ Page({
       }
       //todo 提交公司抬头
       wx.request({
-        url: urlModel.url.InvoiceTitleList,
+        url: urlModel.url.InvoiceTitleChange,
         data: {
           "sessionId":app.globalData.sessionId,
           "titleId":that.data.title.id,
@@ -250,12 +266,22 @@ Page({
           //todo 个人抬头
           that.setData({
             isCompany:false,
-            "title.name":res
-          })
+            "title.name":res.title
+          });
+          that.defaultData.wxTitle.title = res.title
         } else{
           //todo 企业抬头
           that.setData({
-            isCompany:true
+            isCompany:true,
+          });
+          that.defaultData.wxTitle.bank = res.bankName;
+          that.defaultData.wxTitle.bankAccount = res.bankAccount;
+          that.defaultData.wxTitle.taxNumb = res.taxNumber;
+          that.defaultData.wxTitle.title = res.title;
+          that.defaultData.wxTitle.address = res.companyAddress;
+          that.defaultData.wxTitle.companyPhone = res.telephone;
+          that.setData({
+            title: that.defaultData.wxTitle
           })
         }
       }
@@ -263,14 +289,14 @@ Page({
   },
   submitEditedTitle:function (e) {
     let that = this;
-    //todo 提交修改抬头请求
+    // 提交修改抬头请求
     // console.log(e);
     var tmp = {
       detail:{
         value:{}
       }
-    }
-    tmp.detail.value = that.fill2fullTitle(e.detail.value)
+    };
+    tmp.detail.value = that.fill2fullTitle(e.detail.value);
     that.addTitle(tmp)
   },
   fill2fullTitle:function (values) {
@@ -357,7 +383,49 @@ Page({
         }
       })
     }
-    console.log(returnValue)
+    console.log(returnValue);
     return returnValue
+  },
+  fill2fullTitleWithWx:function (values) {
+    //todo 使用微信抬头填充，并返回
+    var returnValue = {}
+    if (this.data.isCompany){
+      //公司抬头
+      if (values["name-com"] === ""){
+        values["name-com"] = this.defaultData.wxTitle.title
+      }
+      if (values["taxNumb-com"] === "" &&
+          this.defaultData.wxTitle.taxNumb !== this.defaultData.title.taxNumb){
+        values["taxNumb-com"] = this.defaultData.wxTitle.taxNumb
+      }
+      if (values["address-com"] === "" &&
+          this.defaultData.wxTitle.address !== this.defaultData.title.address){
+        values["address-com"] = this.defaultData.wxTitle.address
+      }
+      if (values["companyPhone-com"] === "" &&
+          this.defaultData.wxTitle.companyPhone !== this.defaultData.title.companyPhone){
+        values["companyPhone-com"] = this.defaultData.wxTitle.companyPhone
+      }
+      if (values["bank-com"] === "" &&
+          this.defaultData.wxTitle.bank !== this.defaultData.title.bank){
+        values["bank-com"] = this.defaultData.wxTitle.bank
+      }
+      if (values["bankAccount-com"] === "" &&
+          this.defaultData.wxTitle.bankAccount !== this.defaultData.title.bankAccount){
+        values["bankAccount-com"] = this.defaultData.wxTitle.bankAccount
+      }
+      if (values["email-com"] === "" &&
+          this.defaultData.wxTitle.email !== this.defaultData.title.email){
+        values["email-com"] = this.defaultData.wxTitle.email
+      }
+    }
+    else {
+      //个人抬头
+      if (values["name-private"] === "" &&
+          this.defaultData.wxTitle.title !== this.defaultData.title.title){
+        values["name-private"] = this.defaultData.wxTitle.title
+      }
+    }
+
   }
 });
