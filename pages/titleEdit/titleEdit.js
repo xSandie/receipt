@@ -128,11 +128,11 @@ Page({
   },
   addTitle:function (e) {
     let that = this;
-    //todo 提交添加抬头请求
+    // 提交添加抬头请求
     console.log(e);
 
     if (that.defaultData.wxTitle.title !== that.defaultData.title.title){
-      //todo 使用微信抬头填充e.detail.value
+      // 使用微信抬头填充e.detail.value
       that.fill2fullTitleWithWx(e.detail.value)
     }
 
@@ -184,6 +184,8 @@ Page({
           if (res.data.code === 0){
             var data = res.data.data;
             console.log(data)
+            // 成功，返回上一页
+            wx.navigateBack()
           }else{
             //todo 失败
           }
@@ -200,7 +202,7 @@ Page({
         });
         return;
       }
-      //todo 校验邮箱是否正确
+      // 校验邮箱是否正确
       if(!checker.checkEmail(email)){
         wx.showToast({
           icon:"none",
@@ -224,6 +226,8 @@ Page({
           if (res.data.code === 0){
             var data = res.data.data;
             console.log(data)
+            // 成功，返回上一页
+            wx.navigateBack()
           }else{
             //todo 失败
           }
@@ -231,14 +235,13 @@ Page({
       })
 
     }
-    // 成功，返回上一页
-    wx.navigateBack()
+
 
   },
   chooseType:function (e) {
     var tabId = e.target.dataset.id;
     console.log(e, tabId);
-    //todo 禁止编辑抬头时切换
+    // 禁止编辑抬头时切换
     if (!this.data.adding) {
       wx.showToast({
         icon:"none",
@@ -302,10 +305,10 @@ Page({
   fill2fullTitle:function (values) {
     //values:表单提交上来的对象
     let that =this;
-    //todo 根据原有信息填充表单，并返回
+    // 根据原有信息填充表单，并返回
     var returnValue = {};
     if (that.data.isCompany) {
-      //todo 填充公司
+      // 填充公司
       Object.keys(values).forEach((key)=>{
         if (key === "name-com") {
           if (values[key] === ""){
@@ -365,7 +368,7 @@ Page({
         }
       })
     }else {
-      //todo 填充个人
+      // 填充个人
       Object.keys(values).forEach((key)=>{
         if (key === "name-private") {
           if (values[key] === ""){
@@ -387,8 +390,7 @@ Page({
     return returnValue
   },
   fill2fullTitleWithWx:function (values) {
-    //todo 使用微信抬头填充，并返回
-    var returnValue = {}
+    // 使用微信抬头填充，并返回
     if (this.data.isCompany){
       //公司抬头
       if (values["name-com"] === ""){

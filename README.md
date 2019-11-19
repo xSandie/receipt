@@ -384,7 +384,7 @@
 | 参数      | 可空  | 类型   | 描述       |
 | --------- | ----- | ------ | ---------- |
 | sessionId | False | String | 用户标识符 |
-| invoiceId | False | String | 发票id     |
+| titleId | False | String | 发票id     |
 
 ### 2. 返回数据
 

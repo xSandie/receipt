@@ -1,6 +1,6 @@
 // pages/titleDisplay/titleDisplay.js
 const urlModel = require('../../utils/urlSet.js');
-let app = getApp()
+let app = getApp();
 Page({
 
   /**
@@ -31,7 +31,7 @@ Page({
         //从选择页面过来
         this.setData({
           showChooseBtn:true
-        })
+        });
         app.globalData.chosenTitle.haveSet = false
       }else {
         this.setData({
@@ -40,10 +40,10 @@ Page({
       }
     }
     //todo 请求发票抬头详细信息
-    let titleId = options.id
+    let titleId = options.id;
     this.setData({
       titleId
-    })
+    });
     wx.request({
       url: urlModel.url.InvoiceTitleDetail,
       data: {
@@ -52,10 +52,9 @@ Page({
       },
       method:"POST",
       success: function(res) {
-        //todo
-        console.log(res)
+        console.log(res);
         if (res.data.code === 0){
-          var data = res.data.data
+          var data = res.data.data;
           console.log(data)
         }else{
           //todo 失败
@@ -114,7 +113,7 @@ Page({
   },
 
   toEdit:function () {
-    let that = this
+    let that = this;
     wx.navigateTo({
       url:"../titleEdit/titleEdit?page_from="+"display&" + "id=" + that.data.titleId
     })
@@ -125,20 +124,37 @@ Page({
       success(res) {
         if (res.confirm){
           //todo 删除此条抬头
+          wx.request({
+            url: urlModel.url.DeleteInvoiceTitle,
+            data: {
+              "sessionId":app.globalData.sessionId,
+              "titleId":that.data.titleId
+            },
+            method:"POST",
+            success: function(res) {
+              // console.log(res)
+              if (res.data.code === 0){
+                var data = res.data.data;
+                console.log(data);
+              }else{
+                //todo 失败
+              }
+            }
+          })
         }
       }
     })
   },
   chooseTitle:function () {
     //todo 选择抬头，设置全局抬头id
-    let that = this
+    let that = this;
     Object.keys(that.data.title).forEach((key)=>{
       let data = that.data.title[key];
       app.globalData.chosenTitle[key] = data;
-    })
-    app.globalData.chosenTitle.titleId = that.data.titleId
-    app.globalData.chosenTitle.haveSet = true
-    app.globalData.chosenTitle.isCompany = that.data.isCompany
+    });
+    app.globalData.chosenTitle.titleId = that.data.titleId;
+    app.globalData.chosenTitle.haveSet = true;
+    app.globalData.chosenTitle.isCompany = that.data.isCompany;
     wx.navigateBack()
   }
-})
+});
