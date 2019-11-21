@@ -1,5 +1,6 @@
 // pages/titleDisplay/titleDisplay.js
 const urlModel = require('../../utils/urlSet.js');
+const hints = require('../../pkgs/helper/hint.js');
 let app = getApp();
 Page({
 
@@ -25,6 +26,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let that = this
       // 判断是否展示选择按钮
     if (options.from_page){
       if (options.from_page === "choose") {
@@ -56,6 +58,10 @@ Page({
         if (res.data.code === 0){
           var data = res.data.data;
           console.log(data)
+          that.setData({
+            title:data.title,
+            isCompany:data.isCompany
+          })
         }else{
           //todo 失败
         }
@@ -119,6 +125,7 @@ Page({
     })
   },
   deleteSelf:function () {
+    var that = this
     wx.showModal({
       content:"确定删除此发票抬头？",
       success(res) {
@@ -136,6 +143,11 @@ Page({
               if (res.data.code === 0){
                 var data = res.data.data;
                 console.log(data);
+                hints.operSuccess()
+                setTimeout(()=>{wx.reLaunch({
+                  url:"../index/index"
+                })}, 1000)
+
               }else{
                 //todo 失败
               }

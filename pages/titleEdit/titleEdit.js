@@ -57,8 +57,29 @@ Page({
           //禁止使用微信抬头，以免造成混乱
           this.setData({
             adding:false
-          })
+          });
           //todo 请求发票抬头详细信息填充 判断是否是企业抬头
+          wx.request({
+            url: urlModel.url.InvoiceTitleDetail,
+            data: {
+              "sessionId":app.globalData.sessionId,
+              "titleId":titleId
+            },
+            method:"POST",
+            success: function(res) {
+              console.log(res);
+              if (res.data.code === 0){
+                var data = res.data.data;
+                console.log(data)
+                that.setData({
+                  title:data.title,
+                  isCompany:data.isCompany
+                })
+              }else{
+                //todo 失败
+              }
+            }
+          })
 
         }else if(from_page === "invoice"){
           //从发票详情过来

@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "发票"
+  "navigationBarTitleText": "发票",
+  "enablePullDownRefresh": true
 }

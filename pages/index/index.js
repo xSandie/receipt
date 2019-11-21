@@ -1,4 +1,4 @@
-const app = getApp()
+const app = getApp();
 const urlModel = require('../../utils/urlSet.js');
 Page({
 
@@ -26,7 +26,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this
+    var that = this;
     //todo 展示发票抬头列表
     wx.request({
       url: urlModel.url.InvoiceTitleList,
@@ -38,8 +38,8 @@ Page({
       success: function(res) {
         // console.log(res)
         if (res.data.code === 0){
-          var data = res.data.data
-          console.log(data)
+          var data = res.data.data;
+          console.log(data);
           that.setData({
             titles:data.titles
           })
@@ -82,14 +82,21 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+    this.setData({
+      page:0
+    });
+    this.onLoad()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+    var that = this;
+    this.setData({
+      page:that.data.page + 1
+    });
+    this.onLoad()
   },
 
   /**
@@ -100,8 +107,8 @@ Page({
   },
 
   toTitleDisplay: function (e) {
-    var titleId = e.currentTarget.dataset.id
-    console.log(e,titleId)
+    var titleId = e.currentTarget.dataset.id;
+    console.log(e,titleId);
     wx.navigateTo({
       url:"../titleDisplay/titleDisplay?id="+titleId
     })
@@ -112,13 +119,13 @@ Page({
     })
   },
   scanCode:function () {
-    var that = this
+    var that = this;
     wx.scanCode({
       success (res) {
         if (res.scanType != 'DATA_MATRIX' &&
             res.scanType != 'PDF_417' && res.scanType != 'WX_CODE'
         ){//一维码 todo 二维码
-          console.log(res.result)
+          console.log(res.result);
           wx.navigateTo({
             url:"../getInvoice/getInvoice?code="+res.result
           })
@@ -131,4 +138,4 @@ Page({
       url:"../historyReceipt/historyReceipt"
     })
   }
-})
+});
