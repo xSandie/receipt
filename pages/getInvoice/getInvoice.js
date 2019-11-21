@@ -37,6 +37,28 @@ Page({
           code:order_code
         })
         //todo 请求开票详细数据
+        wx.request({
+          url: urlModel.url.GetTranDetail,
+          data: {
+            "sessionId":app.globalData.sessionId,
+            "code":order_code
+          },
+          method:"POST",
+          success: function(res) {
+            // console.log(res)
+            if (res.data.code === 0){
+              var data = res.data.data;
+              console.log(data);
+              that.setData({
+                invoiceMoney:data.invoiceMoney+"元",
+                totalMoney:data.totalMoney,
+                code:data.code
+              })
+            }else{
+              //todo 失败
+            }
+          }
+        })
 
       }
   },
