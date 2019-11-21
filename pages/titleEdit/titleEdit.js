@@ -190,18 +190,28 @@ Page({
         data: {
           "sessionId":app.globalData.sessionId,
           "titleId":that.data.title.id,
-          "type":"company",
-          "title":companyName,
-          "taxNumb":companyTaxNumb,
-          "bankAccount":e.detail.value["bankAccount-com"] || "",
-          "bank":e.detail.value["bank-com"] || "",
-          "address":e.detail.value["address-com"] || "",
-          "companyPhone":e.detail.value["companyPhone-com"] || "",
-          "email":companyEmail || ""
+          "isCompany":1,
+          // "title":companyName,
+          // "taxNumb":companyTaxNumb,
+          // "bankAccount":e.detail.value["bankAccount-com"] || "",
+          // "bank":e.detail.value["bank-com"] || "",
+          // "address":e.detail.value["address-com"] || "",
+          // "companyPhone":e.detail.value["companyPhone-com"] || "",
+          //
+          "dataCompany":{
+            "type":"0",
+            "title":companyName,
+            "taxNumb":companyTaxNumb,
+            "address":e.detail.value["address-com"] || "",
+            "companyPhone":e.detail.value["companyPhone-com"] || "",
+            "bank":e.detail.value["bank-com"] || "",
+            "bankAccount":e.detail.value["bankAccount-com"] || "",
+            "email":companyEmail || "",
+          }
         },
         method:"POST",
         success: function(res) {
-          // console.log(res)
+          console.log(res)
           if (res.data.code === 0){
             var data = res.data.data;
             console.log(data)
@@ -233,17 +243,20 @@ Page({
       }
       // todo 提交个人抬头
       wx.request({
-        url: urlModel.url.InvoiceTitleList,
+        url: urlModel.url.InvoiceTitleChange,
         data: {
           "sessionId":app.globalData.sessionId,
           "titleId":that.data.title.id,
-          "type":"person",
-          "title":name,
-          "email":email
+          "isCompany":0,
+          "dataPerson":{
+            "type":"1",
+            "title":name,
+            "email":email
+          },
         },
         method:"POST",
         success: function(res) {
-          // console.log(res)
+          console.log(res)
           if (res.data.code === 0){
             var data = res.data.data;
             console.log(data)
