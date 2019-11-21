@@ -167,6 +167,10 @@ Page({
     app.globalData.chosenTitle.titleId = that.data.titleId;
     app.globalData.chosenTitle.haveSet = true;
     app.globalData.chosenTitle.isCompany = that.data.isCompany;
-    wx.navigateBack()
+    wx.navigateBack(
+        {
+          delta: 2
+        }
+    )
   }
 });

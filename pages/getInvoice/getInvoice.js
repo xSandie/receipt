@@ -1,6 +1,8 @@
 // pages/getInvoice/getInvoice.js开发票
-const app = getApp()
+const app = getApp();
 const urlModel = require('../../utils/urlSet.js');
+const hints = require('../../pkgs/helper/hint.js');
+
 Page({
 
   /**
@@ -30,12 +32,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      var that = this
+      var that = this;
       if (options.code){
-        let order_code = options.code
+        let order_code = options.code;
         this.setData({
           code:order_code
-        })
+        });
         //todo 请求开票详细数据
         wx.request({
           url: urlModel.url.GetTranDetail,
@@ -76,7 +78,7 @@ Page({
   onShow: function () {
       if (app.globalData.chosenTitle.haveSet){
         //todo 填充字段
-        let that = this
+        let that = this;
         if (app.globalData.chosenTitle.isCompany){
           this.setData({
             'title.title':app.globalData.chosenTitle.title,
@@ -125,42 +127,97 @@ Page({
     console.log(e)
   },
   getInvoice:function (e) {
-    console.log(e)
-    var that = this
+    // console.log(e);
+    var that = this;
     if (this.data.title.id == null){
       wx.showToast({
         icon:"none",
         title:'请选择发票抬头'
-      })
+      });
       return
     }
     if (that.data.paperFlag && e.detail.value.address === ""){
       wx.showToast({
         icon:"none",
         title:'请补全地址信息'
-      })
+      });
       return;
     }
     if (!that.data.paperFlag && e.detail.value.email === ""){
       wx.showToast({
         icon:"none",
         title:'请补全邮箱信息'
-      })
+      });
       return;
     }
 
-    let money = e.detail.value.money
+    let money = e.detail.value.money;
     if(money === ""){
-      money = that.data.totalMoney //如果没有修改开票金额，填充默认
+      money = that.data.invoiceMoney //如果没有修改开票金额，填充默认
     }
-    //todo 开发票，提示请求已提交，然后返回
+    //todo 开发票，提示请求已提交，清空抬头，然后返回
     if (that.data.paperFlag){
       //todo 纸质发票
       let address = e.detail.value.address
+      wx.request({
+        url: urlModel.url.CreateInvoice,
+        data: {
+          "sessionId":app.globalData.sessionId,
+          "code":that.data.code,
+          "type":0,
+          "titleId":that.data.title.id,
+          "invoiceMoney":money,
+          "sendAddress":address
+        },
+        method:"POST",
+        success: function(res) {
+          console.log(res)
+          if (res.data.code === 0){
+            var data = res.data.data;
+            // console.log(data);
+            hints.operSuccess()
+            setTimeout(()=>{
+              wx.reLaunch({
+                url:"../index/index"
+              })
+            },1000)
+          }else{
+            //todo 失败
+          }
+        }
+      })
 
     }else{
       //todo 电子发票
       let mail = e.detail.value.email
+      wx.request({
+        url: urlModel.url.CreateInvoice,
+        data: {
+          "sessionId":app.globalData.sessionId,
+          "code":that.data.code,
+          "type":1,
+          "titleId":that.data.title.id,
+          "invoiceMoney":money,
+          "sendMail":mail
+        },
+        method:"POST",
+        success: function(res) {
+          console.log(res)
+          if (res.data.code === 0){
+            var data = res.data.data;
+            // console.log(data);
+            hints.operSuccess()
+            setTimeout(()=>{
+              wx.reLaunch({
+                url:"../index/index"
+              })
+            },1000)
+          }else{
+            //todo 失败
+          }
+        }
+      })
+
     }
 
   },
@@ -182,4 +239,4 @@ Page({
       })
     }
   }
-})
+});

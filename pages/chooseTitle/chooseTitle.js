@@ -18,7 +18,8 @@ Page({
       id:"zwk",  //根据type判断js添加啥字样
       title:"向书晗陕西师范大学陕西师范大学陕西师范大学陕西师范大学",
       detail:"邮箱：345592674@qq.com"  //太长做截取处理
-    },]
+    },],
+    page:0
   },
 
   /**
@@ -26,6 +27,27 @@ Page({
    */
   onLoad: function (options) {
       //todo 分页请求抬头列表
+      var that = this;
+      wx.request({
+      url: urlModel.url.InvoiceTitleList,
+      data: {
+        "sessionId":app.globalData.sessionId,
+        "page":that.data.page
+      },
+      method:"POST",
+      success: function(res) {
+        // console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data);
+          that.setData({
+            titles:data.titles
+          })
+        }else{
+          //todo 失败
+        }
+      }
+    })
   },
 
   /**
@@ -60,14 +82,21 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.setData({
+      page:0
+    });
+    this.onLoad()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    var that = this;
+    this.setData({
+      page:that.data.page + 1
+    });
+    this.onLoad()
   },
 
   /**
