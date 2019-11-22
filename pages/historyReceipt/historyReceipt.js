@@ -1,5 +1,5 @@
 // pages/historyReceipt/historyReceipt.js历史发票
-const app = getApp()
+const app = getApp();
 const urlModel = require('../../utils/urlSet.js');
 Page({
 
@@ -25,13 +25,60 @@ Page({
     receiptType:"全部发票",
   },
   defaultData:{
-    date:"选择日期",
+    date:"选择日期"
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     //todo 动态加载dateArray
+    let that = this;
+    wx.request({
+      url: urlModel.url.HistoryInvoicePeriod,
+      data: {
+        "sessionId":app.globalData.sessionId,
+      },
+      method:"POST",
+      success: function(res) {
+        // console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data;
+          // console.log(data);
+          var tmpArray = ["不限日期"];
+          data.years.forEach(((value, index) => {
+            tmpArray.push(value+"年")
+          }));
+          that.setData({
+            "dateArray[0]":tmpArray
+          })
+        }else{
+          //todo 失败
+        }
+      }
+    });
+    wx.request({
+      url: urlModel.url.HistoryInvoiceList,
+      data: {
+        "sessionId":app.globalData.sessionId,
+        "year":'',
+        "month":"",
+        "type":""
+      },
+      method:"POST",
+      success: function(res) {
+        // console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data);
+          that.setData({
+            invoiceList:data.invoiceList
+          })
+        }else{
+          //todo 失败
+        }
+      }
+    })
+
   },
 
   /**
@@ -84,38 +131,119 @@ Page({
   },
   changeType:function (e) {
     // 筛选发票类型
-    let that = this
-    var value = e.detail.value
-    var realValue = that.data.typeArray[value]
-    console.log(realValue)
+    let that = this;
+    var value = e.detail.value;
+    var realValue = that.data.typeArray[value];
+    console.log(realValue);
     this.setData({
       receiptType:realValue
-    })
+    });
+    var queryValue = that.convertType(realValue);
     //todo 发起请求
+    wx.request({
+      url: urlModel.url.HistoryInvoiceList,
+      data: {
+        "sessionId":app.globalData.sessionId,
+        "year":'',
+        "month":"",
+        "type":queryValue
+      },
+      method:"POST",
+      success: function(res) {
+        // console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data);
+          that.setData({
+            invoiceList:data.invoiceList
+          })
+        }else{
+          //todo 失败
+        }
+      }
+    })
+
   },
   changeDate:function (e) {
     // 筛选发票月份
-    let that = this
-    var value = e.detail.value
-    console.log(value)
+    let that = this;
+    var value = e.detail.value;
+    console.log(value);
     if (value[0] == 0){ //选择了不限日期
       this.setData({
         date:that.defaultData.date
       })
     } else {
-      var newDate = that.data.dateArray[0][value[0]]+that.data.dateArray[1][value[1]]
+      var newDate = that.data.dateArray[0][value[0]]+that.data.dateArray[1][value[1]];
       this.setData({
         date:newDate
       })
       //todo 发起请求
     }
+    var queryValue = that.convertType(that.data.receiptType);
+    var queryYear = that.convertYear(that.data.dateArray[0][value[0]]);
+    if (queryYear !== ""){
+      var queryMonth = that.convertMonth(that.data.dateArray[1][value[1]]);
+    } else {
+      queryMonth = ""
+    }
+    console.log(queryYear, queryMonth);
+    wx.request({
+      url: urlModel.url.HistoryInvoiceList,
+      data: {
+        "sessionId":app.globalData.sessionId,
+        "year":queryYear,
+        "month":queryMonth,
+        "type":queryValue
+      },
+      method:"POST",
+      success: function(res) {
+        // console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data);
+          that.setData({
+            invoiceList:data.invoiceList
+          })
+        }else{
+          //todo 失败
+        }
+      }
+    })
+
   },
   toDetail:function (e) {
-    console.log(e)
+    console.log(e);
     //todo 查看发票详情
-    let receiptId = e.currentTarget.dataset.id
+    let receiptId = e.currentTarget.dataset.id;
     wx.navigateTo({
       url:"../invoiceDetail/invoiceDetail?invoiceId="+receiptId
     })
+  },
+  convertType:function (value) {
+    //转换发票类型
+    var queryValue = "";
+    if (value === "全部发票"){
+
+    } else if (value === "电子发票"){
+      queryValue = "electronic"
+    }else if (value === "纸质发票"){
+      queryValue = "paper"
+    }
+    return queryValue
+  },
+  convertMonth:function (value) {
+    //转换月份
+    return value.slice(0,-1)
+  },
+  convertYear:function (value) {
+    //转换年份
+    var queryValue = "";
+    if (value === "不限日期"){
+      //未筛选年月
+    } else {
+      queryValue = value.slice(0,-1)
+    }
+    return queryValue
   }
-})
+});
