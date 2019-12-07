@@ -138,7 +138,7 @@
         <view class="white-card">
             <view class="row black-fg font-32">
                 <view class="name">姓 名</view>
-                <view class="content"><input name="name-private" type="text" placeholder="{{title.name}}"/></view>
+                <view class="content"><input name="name-private" type="text" placeholder="{{title.title}}"/></view>
             </view>
             <view class="rline"></view>
             <view class="row black-fg font-32">

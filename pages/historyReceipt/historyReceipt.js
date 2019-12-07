@@ -141,14 +141,16 @@ Page({
     var queryValue = that.convertType(realValue);
     console.log(queryValue);
     //todo 发起请求
+    var send_data ={
+      "sessionId":app.globalData.sessionId,
+      "year":'',
+      "month":"",
+      "type":queryValue
+    }
+    console.log(send_data)
     wx.request({
       url: urlModel.url.HistoryInvoiceList,
-      data: {
-        "sessionId":app.globalData.sessionId,
-        "year":'',
-        "month":"",
-        "type":queryValue
-      },
+      data: send_data,
       method:"POST",
       success: function(res) {
         // console.log(res)
@@ -189,14 +191,16 @@ Page({
       queryMonth = ""
     }
     console.log(queryYear, queryMonth);
+    var send_data = {
+      "sessionId":app.globalData.sessionId,
+      "year":queryYear,
+      "month":queryMonth,
+      "type":queryValue
+    }
+    console.log(send_data)
     wx.request({
       url: urlModel.url.HistoryInvoiceList,
-      data: {
-        "sessionId":app.globalData.sessionId,
-        "year":queryYear,
-        "month":queryMonth,
-        "type":queryValue
-      },
+      data: send_data,
       method:"POST",
       success: function(res) {
         // console.log(res)

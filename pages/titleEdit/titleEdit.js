@@ -161,14 +161,14 @@ Page({
       var companyName = e.detail.value["name-com"];
       var companyTaxNumb = e.detail.value["taxNumb-com"];
       var companyEmail = e.detail.value["email-com"];
-      if (companyName === ""){
+      if (companyName.trim() === ""){
         wx.showToast({
           icon:"none",
           title:'请填写企业名称'
         });
         return
       }
-      if (companyTaxNumb === "") {
+      if (companyTaxNumb.trim() === "") {
         wx.showToast({
           icon:"none",
           title:'请填写企业税号'
@@ -228,7 +228,7 @@ Page({
     }else{
       var name = e.detail.value["name-private"];
       var email = e.detail.value["email-private"];
-      if (name === "" || email === "") {
+      if (name.trim() === "" || email.trim() === "") {
         wx.showToast({
           icon:"none",
           title:'请补全信息'
@@ -307,7 +307,7 @@ Page({
           //todo 个人抬头
           that.setData({
             isCompany:false,
-            "title.name":res.title
+            "title.title":res.title
           });
           that.defaultData.wxTitle.title = res.title
         } else{
@@ -410,7 +410,7 @@ Page({
       Object.keys(values).forEach((key)=>{
         if (key === "name-private") {
           if (values[key] === ""){
-            returnValue[key] = that.data.title.name
+            returnValue[key] = that.data.title.title
           }else{
             returnValue[key] = values[key]
           }
