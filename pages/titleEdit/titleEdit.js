@@ -184,31 +184,33 @@ Page({
           return;
         }
       }
+      var send_data={
+        "sessionId":app.globalData.sessionId,
+        "titleId":that.data.title.id,
+        "isCompany":1,
+        // "title":companyName,
+        // "taxNumb":companyTaxNumb,
+        // "bankAccount":e.detail.value["bankAccount-com"] || "",
+        // "bank":e.detail.value["bank-com"] || "",
+        // "address":e.detail.value["address-com"] || "",
+        // "companyPhone":e.detail.value["companyPhone-com"] || "",
+        //
+        "dataCompany":{
+          "type":"0",
+          "title":companyName,
+          "taxNumb":companyTaxNumb,
+          "address":e.detail.value["address-com"] || "",
+          "companyPhone":e.detail.value["companyPhone-com"] || "",
+          "bank":e.detail.value["bank-com"] || "",
+          "bankAccount":e.detail.value["bankAccount-com"] || "",
+          "email":companyEmail || "",
+        }
+      }
+      console.log(send_data)
       //todo 提交公司抬头
       wx.request({
         url: urlModel.url.InvoiceTitleChange,
-        data: {
-          "sessionId":app.globalData.sessionId,
-          "titleId":that.data.title.id,
-          "isCompany":1,
-          // "title":companyName,
-          // "taxNumb":companyTaxNumb,
-          // "bankAccount":e.detail.value["bankAccount-com"] || "",
-          // "bank":e.detail.value["bank-com"] || "",
-          // "address":e.detail.value["address-com"] || "",
-          // "companyPhone":e.detail.value["companyPhone-com"] || "",
-          //
-          "dataCompany":{
-            "type":"0",
-            "title":companyName,
-            "taxNumb":companyTaxNumb,
-            "address":e.detail.value["address-com"] || "",
-            "companyPhone":e.detail.value["companyPhone-com"] || "",
-            "bank":e.detail.value["bank-com"] || "",
-            "bankAccount":e.detail.value["bankAccount-com"] || "",
-            "email":companyEmail || "",
-          }
-        },
+        data: send_data,
         method:"POST",
         success: function(res) {
           console.log(res)
@@ -242,18 +244,20 @@ Page({
         return;
       }
       // todo 提交个人抬头
+      var send_data= {
+        "sessionId":app.globalData.sessionId,
+        "titleId":that.data.title.id,
+        "isCompany":0,
+        "dataPerson":{
+          "type":"1",
+          "title":name,
+          "email":email
+        },
+      }
+      console.log(send_data)
       wx.request({
         url: urlModel.url.InvoiceTitleChange,
-        data: {
-          "sessionId":app.globalData.sessionId,
-          "titleId":that.data.title.id,
-          "isCompany":0,
-          "dataPerson":{
-            "type":"1",
-            "title":name,
-            "email":email
-          },
-        },
+        data:send_data,
         method:"POST",
         success: function(res) {
           console.log(res)

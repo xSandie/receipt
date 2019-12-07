@@ -28,7 +28,7 @@ Page({
   onLoad: function (options) {
     let that = this
       // 判断是否展示选择按钮
-    if (options.from_page){
+    if (options && options.from_page){
       if (options.from_page === "choose") {
         //从选择页面过来
         this.setData({
@@ -101,6 +101,28 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    var that = this
+    wx.request({
+      url: urlModel.url.InvoiceTitleDetail,
+      data: {
+        "sessionId":app.globalData.sessionId,
+        "titleId":that.data.titleId
+      },
+      method:"POST",
+      success: function(res) {
+        console.log(res);
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data)
+          that.setData({
+            title:data.title,
+            isCompany:data.isCompany
+          })
+        }else{
+          //todo 失败
+        }
+      }
+    })
 
   },
 
@@ -135,11 +157,11 @@ Page({
             url: urlModel.url.DeleteInvoiceTitle,
             data: {
               "sessionId":app.globalData.sessionId,
-              "titleId":that.data.titleId
+              "invoiceId":that.data.titleId
             },
             method:"POST",
             success: function(res) {
-              // console.log(res)
+              console.log(res)
               if (res.data.code === 0){
                 var data = res.data.data;
                 console.log(data);

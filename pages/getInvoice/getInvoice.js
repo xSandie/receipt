@@ -34,7 +34,7 @@ Page({
   onLoad: function (options) {
       var that = this;
       if (options.code){
-        let order_code = options.code;
+        let order_code = "9000000011420792020181213175137";//todo 改
         this.setData({
           code:order_code
         });
@@ -54,7 +54,6 @@ Page({
               that.setData({
                 invoiceMoney:data.invoiceMoney+"元",
                 totalMoney:data.totalMoney,
-                code:data.code
               })
             }else{
               //todo 失败
@@ -158,17 +157,20 @@ Page({
     //todo 开发票，提示请求已提交，清空抬头，然后返回
     if (that.data.paperFlag){
       //todo 纸质发票
+
       let address = e.detail.value.address
+      var send_data = {
+        "sessionId":app.globalData.sessionId,
+        "code":that.data.code,
+        "type":0,
+        "titleId":that.data.title.id,
+        "invoiceMoney":money,
+        "sendAddress":address
+      }
+      console.log(send_data)
       wx.request({
         url: urlModel.url.CreateInvoice,
-        data: {
-          "sessionId":app.globalData.sessionId,
-          "code":that.data.code,
-          "type":0,
-          "titleId":that.data.title.id,
-          "invoiceMoney":money,
-          "sendAddress":address
-        },
+        data: send_data,
         method:"POST",
         success: function(res) {
           console.log(res)
@@ -190,16 +192,18 @@ Page({
     }else{
       //todo 电子发票
       let mail = e.detail.value.email
+      var send_data={
+        "sessionId":app.globalData.sessionId,
+        "code":that.data.code,
+        "type":1,
+        "titleId":that.data.title.id,
+        "invoiceMoney":money,
+        "sendMail":mail
+      }
+      console.log(send_data)
       wx.request({
         url: urlModel.url.CreateInvoice,
-        data: {
-          "sessionId":app.globalData.sessionId,
-          "code":that.data.code,
-          "type":1,
-          "titleId":that.data.title.id,
-          "invoiceMoney":money,
-          "sendMail":mail
-        },
+        data: send_data,
         method:"POST",
         success: function(res) {
           console.log(res)

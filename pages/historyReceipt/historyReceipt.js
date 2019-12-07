@@ -113,7 +113,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.onLoad()
   },
 
   /**
@@ -139,6 +139,7 @@ Page({
       receiptType:realValue
     });
     var queryValue = that.convertType(realValue);
+    console.log(queryValue);
     //todo 发起请求
     wx.request({
       url: urlModel.url.HistoryInvoiceList,

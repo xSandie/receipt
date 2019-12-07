@@ -1,6 +1,6 @@
 // pages/invoiceDetail/invoiceDetail.js发票详情
 const urlModel = require('../../utils/urlSet.js');
-let app = getApp()
+let app = getApp();
 Page({
 
   /**
@@ -34,11 +34,46 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var invoiceId = options.invoiceId
+    var invoiceId = options.invoiceId;
+    var that = this;
     this.setData({
       invoiceId:invoiceId
-    })
+    });
     //todo 请求发票详情，修改导航栏文字
+    var send_data = {
+      "sessionId":app.globalData.sessionId,
+      "titleId":invoiceId
+    }
+    console.log(send_data)
+    wx.request({
+      url: urlModel.url.GetInvoiceDetail,
+      data: send_data,
+      method:"POST",
+      success: function(res) {
+        console.log(res)
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data);
+          var realType = data.type;
+          var realInvoice = data.invoice;
+          var realTitle = data.title;
+          
+          if (realType === "electronic"){
+              that.setData({
+                paperInvoice:false
+              })
+          }else if (realType === "paper"){
+              that.setData({
+                paperInvoice:true
+              })
+          }
+
+        }else{
+          //todo 失败
+        }
+      }
+    })
+
   },
 
   /**
@@ -91,7 +126,7 @@ Page({
   },
   changeTitle:function () {
     //todo 修改抬头
-    let that = this
+    let that = this;
     wx.navigateTo({
       url:"../titleEdit/titleEdit?page_from="+"invoice&" + "id=" + that.data.invoiceId
     })
@@ -106,4 +141,4 @@ Page({
   refund:function () {
     //todo 退款
   }
-})
+});

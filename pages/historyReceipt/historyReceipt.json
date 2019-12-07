@@ -1,4 +1,5 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "开票历史"
+  "navigationBarTitleText": "开票历史",
+  "enablePullDownRefresh": true
 }

@@ -27,27 +27,50 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    //todo 展示发票抬头列表
-    wx.request({
-      url: urlModel.url.InvoiceTitleList,
-      data: {
-        "sessionId":app.globalData.sessionId,
-        "page":that.data.page
-      },
-      method:"POST",
-      success: function(res) {
-        // console.log(res)
-        if (res.data.code === 0){
-          var data = res.data.data;
-          console.log(data);
-          that.setData({
-            titles:data.titles
-          })
-        }else{
-          //todo 失败
+    if(options === "refresh"){
+      wx.request({
+        url: urlModel.url.InvoiceTitleList,
+        data: {
+          "sessionId":app.globalData.sessionId,
+          "page":that.data.page
+        },
+        method:"POST",
+        success: function(res) {
+          // console.log(res)
+          if (res.data.code === 0){
+            var data = res.data.data;
+            console.log(data);
+            that.setData({
+              titles:data.titles
+            })
+          }else{
+            //todo 失败
+          }
         }
-      }
-    })
+      })
+    }else{
+      app.login().then(()=>{
+        wx.request({
+          url: urlModel.url.InvoiceTitleList,
+          data: {
+            "sessionId":app.globalData.sessionId,
+            "page":that.data.page
+          },
+          method:"POST",
+          success: function(res) {
+            // console.log(res)
+            if (res.data.code === 0){
+              var data = res.data.data;
+              console.log(data);
+              that.setData({
+                titles:data.titles
+              })
+            }else{
+              //todo 失败
+            }
+          }
+        })}).catch(()=>{})
+    }
   },
 
   /**
@@ -85,7 +108,7 @@ Page({
     this.setData({
       page:0
     });
-    this.onLoad()
+    this.onLoad("refresh")
   },
 
   /**
@@ -96,7 +119,7 @@ Page({
     this.setData({
       page:that.data.page + 1
     });
-    this.onLoad()
+    this.onLoad("refresh")
   },
 
   /**

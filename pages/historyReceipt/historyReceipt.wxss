@@ -7,6 +7,7 @@
     padding: 30rpx;
     color: black;
     border-radius: 16rpx;
+    margin-bottom: 20rpx;
     background: white;
     box-sizing: border-box;
     position: relative;
@@ -75,4 +76,10 @@
 }
 picker{
     display: flex;
+}
+.wait-badge{
+    border-radius: 6rpx;
+    background: #ffefb4;
+    color: #ff9f29;
+    padding: 0 10rpx;
 }

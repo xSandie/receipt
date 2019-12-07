@@ -2,32 +2,35 @@
 const urlModel = require('utils/urlSet.js');
 App({
   onLaunch: function () {
-    this.login()
   },
   login:function(){
     var app = this
     // 登录
-    wx.login({
-      success: res => {
-        // todo 登陆，发送 res.code 到后台换取 openId, sessionKey, unionId
-        wx.request({
-          url: urlModel.url.Login,
-          data: {
-            "code": res.code
-          },
-          method:"POST",
-          success: function(res) {
-            // console.log(res)
-            if (res.data.code === 0){
-              var data = res.data.data
-              console.log(data)
-              app.globalData.sessionId = data.sessionid
-            }else{
-              //todo 登陆失败
+    return new Promise(function(resolve, reject){
+      wx.login({
+        success: res => {
+          // todo 登陆，发送 res.code 到后台换取 openId, sessionKey, unionId
+          wx.request({
+            url: urlModel.url.Login,
+            data: {
+              "code": res.code
+            },
+            method:"POST",
+            success: function(res) {
+              // console.log(res)
+              if (res.data.code === 0){
+                var data = res.data.data
+                console.log(data)
+                app.globalData.sessionId = data.sessionId
+                resolve()
+              }else{
+                //todo 登陆失败
+                reject()
+              }
             }
-          }
-        })
-      }
+          })
+        }
+      })
     })
   },
   globalData: {
