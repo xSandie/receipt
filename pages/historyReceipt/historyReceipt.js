@@ -1,6 +1,7 @@
 // pages/historyReceipt/historyReceipt.js历史发票
 const app = getApp();
 const urlModel = require('../../utils/urlSet.js');
+const hints = require('../../pkgs/helper/hint.js');
 Page({
 
   /**
@@ -23,6 +24,10 @@ Page({
     date:"选择日期",
     typeArray:["全部发票","电子发票","纸质发票"],
     receiptType:"全部发票",
+    query : {
+        year:null,
+        month:null
+    }
   },
   defaultData:{
     date:"选择日期"
@@ -141,10 +146,14 @@ Page({
     var queryValue = that.convertType(realValue);
     console.log(queryValue);
     //todo 发起请求
+    if(queryValue == "paper"){
+      hints.returnError("暂不支持纸质发票")
+      return;
+    }
     var send_data ={
       "sessionId":app.globalData.sessionId,
-      "year":'',
-      "month":"",
+      "year":that.data.query.year || "",
+      "month": (that.data.query.month && that.data.query.year) || "",
       "type":queryValue
     }
     console.log(send_data)
@@ -153,7 +162,7 @@ Page({
       data: send_data,
       method:"POST",
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         if (res.data.code === 0){
           var data = res.data.data;
           console.log(data);
@@ -191,6 +200,10 @@ Page({
       queryMonth = ""
     }
     console.log(queryYear, queryMonth);
+    this.setData({
+      "query.year" :queryYear,
+      "query.month":queryMonth
+    })
     var send_data = {
       "sessionId":app.globalData.sessionId,
       "year":queryYear,
@@ -203,7 +216,7 @@ Page({
       data: send_data,
       method:"POST",
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         if (res.data.code === 0){
           var data = res.data.data;
           console.log(data);

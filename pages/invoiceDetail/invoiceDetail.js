@@ -42,7 +42,7 @@ Page({
     //todo 请求发票详情，修改导航栏文字
     var send_data = {
       "sessionId":app.globalData.sessionId,
-      "titleId":invoiceId
+      "invoiceId":invoiceId
     }
     console.log(send_data)
     wx.request({

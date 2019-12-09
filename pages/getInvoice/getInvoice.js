@@ -10,7 +10,7 @@ Page({
    */
   data: {
     code:"",//绑定的订单
-      paperFlag:true,//是否纸质发票
+      paperFlag:false,//是否纸质发票
     totalMoney:"23.00",
     invoiceMoney:"23.00",
     sendInvoiceMoney:23.00,
@@ -34,7 +34,7 @@ Page({
   onLoad: function (options) {
       var that = this;
       if (options.code){
-        let order_code = "9000000011420792020181213175137";//todo 改
+        let order_code = "9000000011420792020181213170003";//todo 改
         this.setData({
           code:order_code
         });
@@ -234,9 +234,11 @@ Page({
   chooseType:function (e) {
     // 选择纸质发票或者电子发票
     if (e.target.dataset.type == "paper") {
-      this.setData({
-        paperFlag:true
-      })
+      hints.returnError("暂不支持开具纸质发票")
+      return
+      // this.setData({
+      //   paperFlag:true
+      // })
     }else {
       this.setData({
         paperFlag:false
