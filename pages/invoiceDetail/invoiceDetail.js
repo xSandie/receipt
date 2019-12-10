@@ -10,7 +10,7 @@ Page({
     invoiceId:null, //发票详情id
     title:{
       id:null,
-      title:"陕西师范大学",
+      title1:"陕西师范大学",
       details:["税号：2323523464556456X","开户行：招商银行陕西师大路分行",""]
     },
     icon:{
@@ -24,7 +24,7 @@ Page({
       money:15.00,//发票金额
       address:"深圳市龙华区龙华高级中学",
       expressCode:"SF23423413245",
-      mail:"345592674@qq.com",
+      email:"345592674@qq.com",
       time:"2019-10-08"
     }
 
@@ -57,16 +57,20 @@ Page({
           var realType = data.type;
           var realInvoice = data.invoice;
           var realTitle = data.title;
-          
-          if (realType === "electronic"){
-              that.setData({
-                paperInvoice:false
-              })
-          }else if (realType === "paper"){
-              that.setData({
-                paperInvoice:true
-              })
-          }
+
+          that.setData({
+            invoice:data.invoice,
+            title:data.title
+          })
+          // if (realType === "electronic"){
+          //     that.setData({
+          //       paperInvoice:false
+          //     })
+          // }else if (realType === "paper"){
+          //     that.setData({
+          //       paperInvoice:true
+          //     })
+          // }
 
         }else{
           //todo 失败
@@ -128,7 +132,7 @@ Page({
     //todo 修改抬头
     let that = this;
     wx.navigateTo({
-      url:"../titleEdit/titleEdit?page_from="+"invoice&" + "id=" + that.data.invoiceId
+      url:"../titleEdit/titleEdit?page_from="+"invoice&" + "detail=" + JSON.stringify(that.data.title)
     })
   },
   send2mail:function (e) {

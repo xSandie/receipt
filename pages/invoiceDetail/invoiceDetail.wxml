@@ -3,7 +3,7 @@
         <view bindtap="changeTitle" class="white-card row">
 <!--            抬头信息-->
             <view>
-                <view class="title font-32 black-fg">发票抬头：{{title.title}}</view>
+                <view class="title font-32 black-fg">发票抬头：{{title.title1}}</view>
                 <view wx:for="{{title.details}}" class="details font-24 unimportant-grey title">
                     <view class="text-margin"></view>
                     <view>{{item}}</view>
@@ -50,7 +50,7 @@
             <view wx:else>
                 <view class="unimportant-grey font-24">接收邮箱</view>
                 <view class="text-margin"></view>
-                <input class="font-32 black-fg" type="text" placeholder="{{invoice.mail}}"/>
+                <input class="font-32 black-fg" type="text" placeholder="{{invoice.email}}"/>
                 <view class="text-margin"></view>
                 <view class="text-margin"></view>
             </view>

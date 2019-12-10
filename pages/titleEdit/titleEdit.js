@@ -89,7 +89,8 @@ Page({
             adding:false
           })
           //todo json解码发票抬头详情并填充，type，detail
-
+          var detail = JSON.parse(options.detail);
+          console.log(detail)
         }
       } else{
         //添加页面过来
