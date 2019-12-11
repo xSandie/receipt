@@ -1,4 +1,6 @@
 // pages/invoiceDetail/invoiceDetail.js发票详情
+import {checkEmail} from "../../pkgs/helper/check";
+
 const urlModel = require('../../utils/urlSet.js');
 let app = getApp();
 Page({
@@ -43,14 +45,14 @@ Page({
     var send_data = {
       "sessionId":app.globalData.sessionId,
       "invoiceId":invoiceId
-    }
-    console.log(send_data)
+    };
+    console.log(send_data);
     wx.request({
       url: urlModel.url.GetInvoiceDetail,
       data: send_data,
       method:"POST",
       success: function(res) {
-        console.log(res)
+        console.log(res);
         if (res.data.code === 0){
           var data = res.data.data;
           console.log(data);
@@ -132,11 +134,29 @@ Page({
     //todo 修改抬头
     let that = this;
     wx.navigateTo({
-      url:"../titleEdit/titleEdit?page_from="+"invoice&" + "detail=" + JSON.stringify(that.data.title)
+      url:"../titleEdit/titleEdit?page_from="+"invoice&" + "detail="
+          + JSON.stringify(that.data.title)+"&id="+that.data.invoiceId
     })
   },
   send2mail:function (e) {
     //todo 发送电子发票到邮箱
+    console.log(e.detail.value.receiveEmail);
+    var email = e.detail.value.receiveEmail;
+    if (email){
+      if (checkEmail(email)){
+        var send_data = {
+          "sessionId":app.globalData.sessionId,
+          "invoiceId":this.data.invoiceId,
+          "email":email
+        }
+        //todo 请求发送邮件，并修改发票对应的邮箱
+      }else {
+          //todo 邮箱格式有误
+      }
+    }else {
+
+    }
+
   },
   copyExpCode:function (e) {
     //todo 长按复制快递单号
@@ -144,5 +164,25 @@ Page({
   },
   refund:function () {
     //todo 退款
+    var that = this;
+    var send_data = {
+      "sessionId":app.globalData.sessionId,
+      "invoiceId":that.data.invoiceId
+    };
+    console.log(send_data);
+    wx.request({
+      url: urlModel.url.RefundInvoice,
+      data: send_data,
+      method:"POST",
+      success: function(res) {
+        console.log(res);
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data);
+        }else{
+          //todo 失败
+        }
+      }
+    })
   }
 });

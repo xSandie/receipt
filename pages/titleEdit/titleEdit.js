@@ -21,6 +21,8 @@ Page({
     },
     isCompany:true,
     adding:true,//判断是在编辑 还是在添加
+    invoiceEdit:false,
+    invoiceId:null,
   },
   defaultData:{
     wxTitle:{
@@ -86,11 +88,32 @@ Page({
           var invoiceId = options.id;
           //禁止使用微信抬头，以免造成混乱
           this.setData({
-            adding:false
+              invoiceId:invoiceId,
+              adding:false,
+              invoiceEdit:true
           })
           //todo json解码发票抬头详情并填充，type，detail
           var detail = JSON.parse(options.detail);
           console.log(detail)
+          var tmpTitle = {
+            title :detail.title1,
+          }
+          var x;
+          for (x in detail.details){
+            tmpTitle[x] = detail.details[x]
+          } 
+          this.setData({
+            title : tmpTitle,
+          })
+          if (tmpTitle.taxNumb){
+            this.setData({
+              isCompany:true,
+            })
+          } else{
+            this.setData({
+              isCompany:false,
+            })
+          }
         }
       } else{
         //添加页面过来
@@ -226,7 +249,8 @@ Page({
         }
       })
 
-    }else{
+    }
+    else{
       var name = e.detail.value["name-private"];
       var email = e.detail.value["email-private"];
       if (name.trim() === "" || email.trim() === "") {
@@ -338,9 +362,130 @@ Page({
         value:{}
       }
     };
-    tmp.detail.value = that.fill2fullTitle(e.detail.value);
-    that.addTitle(tmp)
-  },
+    if (this.data.invoiceEdit){
+      //todo 编辑发票的抬头
+      if (that.data.isCompany){
+        var companyName = e.detail.value["name-com"];
+        var companyTaxNumb = e.detail.value["taxNumb-com"];
+        var companyEmail = e.detail.value["email-com"];
+        if (companyName.trim() === ""){
+          wx.showToast({
+            icon:"none",
+            title:'请填写企业名称'
+          });
+          return
+        }
+        if (companyTaxNumb.trim() === "") {
+          wx.showToast({
+            icon:"none",
+            title:'请填写企业税号'
+          });
+          return
+        }
+        if (companyEmail) {
+          if (!checker.checkEmail(companyEmail)){
+            wx.showToast({
+              icon:"none",
+              title:'邮箱格式有误'
+            });
+            return;
+          }
+        }
+        var send_data={
+          "sessionId":app.globalData.sessionId,
+          "titleId":that.data.title.id,
+          "isCompany":1,
+          // "title":companyName,
+          // "taxNumb":companyTaxNumb,
+          // "bankAccount":e.detail.value["bankAccount-com"] || "",
+          // "bank":e.detail.value["bank-com"] || "",
+          // "address":e.detail.value["address-com"] || "",
+          // "companyPhone":e.detail.value["companyPhone-com"] || "",
+          //
+          "dataCompany":{
+            "type":"0",
+            "title":companyName,
+            "taxNumb":companyTaxNumb,
+            "address":e.detail.value["address-com"] || "",
+            "companyPhone":e.detail.value["companyPhone-com"] || "",
+            "bank":e.detail.value["bank-com"] || "",
+            "bankAccount":e.detail.value["bankAccount-com"] || "",
+            "email":companyEmail || "",
+          }
+        }
+        console.log(send_data)
+        //todo 提交公司抬头
+        wx.request({
+          url: urlModel.url.UpdateInvoiceTitle,
+          data: send_data,
+          method:"POST",
+          success: function(res) {
+            console.log(res)
+            if (res.data.code === 0){
+              var data = res.data.data;
+              console.log(data)
+              // 成功，返回上一页
+              wx.navigateBack()
+            }else{
+              //todo 失败
+            }
+          }
+        })
+
+      }
+      else{
+        var name = e.detail.value["name-private"];
+        var email = e.detail.value["email-private"];
+        if (name.trim() === "" || email.trim() === "") {
+          wx.showToast({
+            icon:"none",
+            title:'请补全信息'
+          });
+          return;
+        }
+        // 校验邮箱是否正确
+        if(!checker.checkEmail(email)){
+          wx.showToast({
+            icon:"none",
+            title:'邮箱格式有误'
+          });
+          return;
+        }
+        // todo 提交个人抬头
+        var send_data= {
+          "sessionId":app.globalData.sessionId,
+          "titleId":that.data.title.id,
+          "isCompany":0,
+          "dataPerson":{
+            "type":"1",
+            "title":name,
+            "email":email
+          },
+        }
+        console.log(send_data)
+        wx.request({
+          url: urlModel.url.UpdateInvoiceTitle,
+          data:send_data,
+          method:"POST",
+          success: function(res) {
+            console.log(res)
+            if (res.data.code === 0){
+              var data = res.data.data;
+              console.log(data)
+              // 成功，返回上一页
+              wx.navigateBack()
+            }else{
+              //todo 失败
+            }
+          }
+        })
+
+      }
+    } else {
+      tmp.detail.value = that.fill2fullTitle(e.detail.value);
+      that.addTitle(tmp)
+    }
+    },
   fill2fullTitle:function (values) {
     //values:表单提交上来的对象
     let that =this;
@@ -468,5 +613,6 @@ Page({
       }
     }
 
-  }
+  },
+
 });
