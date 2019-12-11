@@ -140,6 +140,7 @@ Page({
   },
   send2mail:function (e) {
     //todo 发送电子发票到邮箱
+    var that = this;
     console.log(e.detail.value.receiveEmail);
     var email = e.detail.value.receiveEmail;
     if (email){
@@ -148,8 +149,24 @@ Page({
           "sessionId":app.globalData.sessionId,
           "invoiceId":this.data.invoiceId,
           "email":email
-        }
+        } ;
         //todo 请求发送邮件，并修改发票对应的邮箱
+        console.log(send_data);
+        wx.request({
+          url: urlModel.url.PostInvoiceEmail,
+          data: send_data,
+          method:"POST",
+          success: function(res) {
+            console.log(res);
+            if (res.data.code === 0){
+              var data = res.data.data;
+              console.log(data);
+            }else{
+              //todo 失败
+            }
+          }
+        })
+
       }else {
           //todo 邮箱格式有误
       }
