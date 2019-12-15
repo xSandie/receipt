@@ -14,7 +14,7 @@
     <view class="margin-bar"></view>
     <view class="invoice-list">
         <view class="white-card-column" bindtap="toDetail" wx:for="{{invoiceList}}" data-id="{{item.id}}">
-            <view class="status-badge font-22 wait-badge">
+            <view class="status-badge font-22 {{item.status == '已开票'?'pass-badge':'wait-badge'}}">
                 {{item.type}}-{{item.status}}
                 <!--                todo 发票状态 及 类型 小标签带背景色-->
             </view>

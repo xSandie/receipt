@@ -72,15 +72,13 @@ Page({
       method:"POST",
       success: function(res) {
         // console.log(res)
-        if (res.data.code === 0){
-          var data = res.data.data;
-          console.log(data);
-          that.setData({
-            invoiceList:data.invoiceList
-          })
-        }else{
-          //todo 失败
-        }
+        var data = res.data.data;
+        console.log(data);
+        that.setData({
+          invoiceList:that.unpackInvoiceList(data.invoiceList)
+        })
+      },fail(res) {
+        hints.networkError()
       }
     })
 
@@ -146,8 +144,8 @@ Page({
     var queryValue = that.convertType(realValue);
     console.log(queryValue);
     //todo 发起请求
-    if(queryValue == "paper"){
-      hints.returnError("暂不支持纸质发票")
+    if(queryValue === "paper"){
+      hints.returnError("暂不支持纸质发票");
       return;
     }
     var send_data ={
@@ -155,23 +153,21 @@ Page({
       "year":that.data.query.year || "",
       "month": (that.data.query.month && that.data.query.year) || "",
       "type":queryValue
-    }
-    console.log(send_data)
+    };
+    console.log(send_data);
     wx.request({
       url: urlModel.url.HistoryInvoiceList,
       data: send_data,
       method:"POST",
       success: function(res) {
-        console.log(res)
-        if (res.data.code === 0){
-          var data = res.data.data;
-          console.log(data);
-          that.setData({
-            invoiceList:data.invoiceList
-          })
-        }else{
-          //todo 失败
-        }
+        console.log(res);
+        var data = res.data.data;
+        console.log(data);
+        that.setData({
+          invoiceList:that.unpackInvoiceList(data.invoiceList)
+        })
+      },fail(res) {
+        hints.networkError()
       }
     })
 
@@ -203,29 +199,27 @@ Page({
     this.setData({
       "query.year" :queryYear,
       "query.month":queryMonth
-    })
+    });
     var send_data = {
       "sessionId":app.globalData.sessionId,
       "year":queryYear,
       "month":queryMonth,
       "type":queryValue
-    }
-    console.log(send_data)
+    };
+    console.log(send_data);
     wx.request({
       url: urlModel.url.HistoryInvoiceList,
       data: send_data,
       method:"POST",
       success: function(res) {
-        console.log(res)
-        if (res.data.code === 0){
+        console.log(res);
           var data = res.data.data;
           console.log(data);
           that.setData({
-            invoiceList:data.invoiceList
+            invoiceList:that.unpackInvoiceList(data.invoiceList)
           })
-        }else{
-          //todo 失败
-        }
+      },fail : function(res) {
+          hints.networkError()
       }
     })
 
@@ -263,5 +257,27 @@ Page({
       queryValue = value.slice(0,-1)
     }
     return queryValue
+  },
+  unpackInvoiceList:function(invoiceList) {
+      var newList = [];
+      if (invoiceList){
+        invoiceList.forEach((invoice)=>{
+          if (invoice.type === "electronic"){
+            invoice.type = "电子发票"
+          } else {
+            invoice.type = "纸质发票"
+          }
+          newList.push({
+            id:invoice.id,
+            receiptTitle:invoice.receiptTitle,
+            receiptMoney:invoice.receiptMoney,
+            buildTime:invoice.buildTime,
+            status:invoice.status,
+            type:invoice.type ,
+            content:invoice.content
+          })
+        })
+      }
+      return newList
   }
 });

@@ -1,6 +1,6 @@
 // pages/invoiceDetail/invoiceDetail.js发票详情
 import {checkEmail} from "../../pkgs/helper/check";
-
+const hints = require('../../pkgs/helper/hint.js');
 const urlModel = require('../../utils/urlSet.js');
 let app = getApp();
 Page({
@@ -12,8 +12,8 @@ Page({
     invoiceId:null, //发票详情id
     title:{
       id:null,
-      title1:"陕西师范大学",
-      details:["税号：2323523464556456X","开户行：招商银行陕西师大路分行",""]
+      title1:"未知抬头",
+      details:["税号：xxxxxxxxxxxx","开户行：xxxxxxxxxxxxx"]
     },
     icon:{
       arrow:"../../images/index/arrow.png"
@@ -23,11 +23,11 @@ Page({
     invoiceImg:null,//发票图片地址
     paperInvoice:false,//是否纸质发票
     invoice:{
-      money:15.00,//发票金额
-      address:"深圳市龙华区龙华高级中学",
-      expressCode:"SF23423413245",
-      email:"345592674@qq.com",
-      time:"2019-10-08"
+      money:18.88,//发票金额
+      address:"xxxxxxxxxxxx",
+      expressCode:"xxxxxxxxxxxx",
+      email:null,
+      time:"2018-08-08"
     }
 
   },
@@ -42,44 +42,7 @@ Page({
       invoiceId:invoiceId
     });
     //todo 请求发票详情，修改导航栏文字
-    var send_data = {
-      "sessionId":app.globalData.sessionId,
-      "invoiceId":invoiceId
-    };
-    console.log(send_data);
-    wx.request({
-      url: urlModel.url.GetInvoiceDetail,
-      data: send_data,
-      method:"POST",
-      success: function(res) {
-        console.log(res);
-        if (res.data.code === 0){
-          var data = res.data.data;
-          console.log(data);
-          var realType = data.type;
-          var realInvoice = data.invoice;
-          var realTitle = data.title;
-
-          that.setData({
-            invoice:data.invoice,
-            title:data.title
-          })
-          // if (realType === "electronic"){
-          //     that.setData({
-          //       paperInvoice:false
-          //     })
-          // }else if (realType === "paper"){
-          //     that.setData({
-          //       paperInvoice:true
-          //     })
-          // }
-
-        }else{
-          //todo 失败
-        }
-      }
-    })
-
+    this.onPullDownRefresh(invoiceId)
   },
 
   /**
@@ -113,8 +76,53 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function (invoiceId) {
+    var that = this;
+    if (!invoiceId){
+      var invoiceId = this.data.invoiceId
+    }
+    var send_data = {
+      "sessionId":app.globalData.sessionId,
+      "invoiceId":invoiceId
+    };
+    console.log(send_data);
+    wx.request({
+      url: urlModel.url.GetInvoiceDetail,
+      data: send_data,
+      method:"POST",
+      success: function(res) {
+        console.log(res);
+        if (res.data.code === 0){
+          var data = res.data.data;
+          console.log(data);
+          var realType = data.type;
+          var realInvoice = data.invoice;
+          var realTitle = data.title;
 
+          that.setData({
+            invoice:data.invoice,
+            title:data.title
+          });
+          // hints.operSuccess("请求成功")
+          // if (realType === "electronic"){
+          //     that.setData({
+          //       paperInvoice:false
+          //     })
+          // }else if (realType === "paper"){
+          //     that.setData({
+          //       paperInvoice:true
+          //     })
+          // }
+
+        }else{
+          //todo 失败
+          hints.returnError()
+        }
+      },
+      fail : function(res) {
+          hints.networkError()
+      }
+    })
   },
 
   /**
@@ -143,35 +151,41 @@ Page({
     var that = this;
     console.log(e.detail.value.receiveEmail);
     var email = e.detail.value.receiveEmail;
-    if (email){
-      if (checkEmail(email)){
-        var send_data = {
-          "sessionId":app.globalData.sessionId,
-          "invoiceId":this.data.invoiceId,
-          "email":email
-        } ;
-        //todo 请求发送邮件，并修改发票对应的邮箱
-        console.log(send_data);
-        wx.request({
-          url: urlModel.url.PostInvoiceEmail,
-          data: send_data,
-          method:"POST",
-          success: function(res) {
-            console.log(res);
-            if (res.data.code === 0){
-              var data = res.data.data;
-              console.log(data);
-            }else{
-              //todo 失败
-            }
+    if (!email && !this.data.invoice.email){
+      hints.inputError();
+      return
+    }else if (!email){
+      email = this.data.invoice.email;
+    }
+
+    if (checkEmail(email)){
+      var send_data = {
+        "sessionId":app.globalData.sessionId,
+        "invoiceId":this.data.invoiceId,
+        "email":email
+      } ;
+      //todo 请求发送邮件，并修改发票对应的邮箱
+      console.log(send_data);
+      wx.request({
+        url: urlModel.url.PostInvoiceEmail,
+        data: send_data,
+        method:"POST",
+        success: function(res) {
+          console.log(res);
+          if (res.data.code === 0){
+            var data = res.data.data;
+            console.log(data);
+            hints.operSuccess("发送成功")
+            that.onPullDownRefresh()
+          }else{
+            //todo 失败
           }
-        })
+        }
+      })
 
-      }else {
-          //todo 邮箱格式有误
-      }
     }else {
-
+        //todo 邮箱格式有误
+      hints.inputError("邮箱格式有误")
     }
 
   },
@@ -196,9 +210,13 @@ Page({
         if (res.data.code === 0){
           var data = res.data.data;
           console.log(data);
+          hints.operSuccess("发票冲红成功")
         }else{
           //todo 失败
+          hints.returnError()
         }
+      },fail(res) {
+        hints.networkError()
       }
     })
   }

@@ -83,3 +83,10 @@ picker{
     color: #ff9f29;
     padding: 0 10rpx;
 }
+
+.pass-badge{
+    border-radius: 6rpx;
+    background: #d2ffd6;
+    color: var(--defaultGreen);
+    padding: 0 10rpx;
+}
