@@ -349,7 +349,7 @@
 | ------------ | ----- | ------ | -------------------------------------------- |
 | sessionId    | False | String | 用户标识符                                   |
 | invoiceId    | True  | String | 抬头id，若为新增抬头，则此参数为空字符串，"" |
-| type         | False | String | 可选值 company \| person                     |
+| type         | False | String | 可选值 company \ person                     |
 | title        | False | String | 发票抬头（名称）                             |
 | taxNumb      | False | String | 税号                                         |
 | bankAccount  | True  | String | 银行账户，为空时传空字符串，""               |
@@ -364,7 +364,7 @@
 | --------- | ----- | ------ | ------------------------ |
 | sessionId | False | String | 用户标识符               |
 | invoiceId | False | String | 绑定的发票id             |
-| type      | False | String | 可选值 company \| person |
+| type      | False | String | 可选值 company \ person |
 | title     | False | String | 发票抬头（名称）         |
 | email     | False | String | 邮箱，不可不填           |
 
