@@ -34,7 +34,7 @@ Page({
   onLoad: function (options) {
       var that = this;
       if (options.code){
-        let order_code = "9000000011420792020181213170006";//todo 改
+        let order_code = "9000000011420792020181213170010";//todo 改
         this.setData({
           code:order_code
         });
@@ -56,8 +56,10 @@ Page({
                 totalMoney:data.totalMoney,
               })
             }else{
-              //todo 失败
+              wx.navigateBack()
             }
+          },fail(res) {
+            wx.navigateBack()
           }
         })
 
@@ -158,7 +160,7 @@ Page({
     if (that.data.paperFlag){
       //todo 纸质发票
 
-      let address = e.detail.value.address
+      let address = e.detail.value.address;
       var send_data = {
         "sessionId":app.globalData.sessionId,
         "code":that.data.code,
@@ -166,32 +168,34 @@ Page({
         "titleId":that.data.title.id,
         "invoiceMoney":money,
         "sendAddress":address
-      }
-      console.log(send_data)
+      };
+      console.log(send_data);
       wx.request({
         url: urlModel.url.CreateInvoice,
         data: send_data,
         method:"POST",
         success: function(res) {
-          console.log(res)
+          console.log(res);
           if (res.data.code === 0){
             var data = res.data.data;
             // console.log(data);
-            hints.operSuccess()
+            hints.operSuccess("开票成功");
             setTimeout(()=>{
               wx.reLaunch({
                 url:"../index/index"
               })
             },1000)
           }else{
-            //todo 失败
+            hints.returnError("开票失败")
           }
+        },fail(res) {
+          hints.networkError()
         }
       })
 
     }else{
-      //todo 电子发票
-      let mail = e.detail.value.email
+      // 电子发票
+      let mail = e.detail.value.email;
       var send_data={
         "sessionId":app.globalData.sessionId,
         "code":that.data.code,
@@ -199,26 +203,28 @@ Page({
         "titleId":that.data.title.id,
         "invoiceMoney":money,
         "sendMail":mail
-      }
-      console.log(send_data)
+      };
+      console.log(send_data);
       wx.request({
         url: urlModel.url.CreateInvoice,
         data: send_data,
         method:"POST",
         success: function(res) {
-          console.log(res)
+          console.log(res);
           if (res.data.code === 0){
             var data = res.data.data;
             // console.log(data);
-            hints.operSuccess()
+            hints.operSuccess("开票成功");
             setTimeout(()=>{
               wx.reLaunch({
                 url:"../index/index"
               })
             },1000)
           }else{
-            //todo 失败
+            hints.returnError(data.msg)
           }
+        },fail(res) {
+          hints.networkError()
         }
       })
 
@@ -234,8 +240,8 @@ Page({
   chooseType:function (e) {
     // 选择纸质发票或者电子发票
     if (e.target.dataset.type == "paper") {
-      hints.returnError("暂不支持开具纸质发票")
-      return
+      hints.returnError("暂不支持开具纸质发票");
+
       // this.setData({
       //   paperFlag:true
       // })

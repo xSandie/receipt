@@ -2,6 +2,7 @@
 const app = getApp();
 const urlModel = require('../../utils/urlSet.js');
 const checker = require('../../pkgs/helper/check.js');
+const hints = require('../../pkgs/helper/hint.js');
 Page({
 
   /**
@@ -365,8 +366,8 @@ Page({
     if (this.data.invoiceEdit){
       //todo 编辑发票的抬头
       if (that.data.isCompany){
-        var companyName = e.detail.value["name-com"];
-        var companyTaxNumb = e.detail.value["taxNumb-com"];
+        var companyName = e.detail.value["name-com"] || that.data.title.title;
+        var companyTaxNumb = e.detail.value["taxNumb-com"] || that.data.title.taxNumb;
         var companyEmail = e.detail.value["email-com"];
         if (companyName.trim() === ""){
           wx.showToast({
@@ -393,20 +394,13 @@ Page({
         }
         var send_data={
           "sessionId":app.globalData.sessionId,
-          "titleId":that.data.title.id,
+          "invoiceId":that.data.title.id,
           "isCompany":1,
-          // "title":companyName,
-          // "taxNumb":companyTaxNumb,
-          // "bankAccount":e.detail.value["bankAccount-com"] || "",
-          // "bank":e.detail.value["bank-com"] || "",
-          // "address":e.detail.value["address-com"] || "",
-          // "companyPhone":e.detail.value["companyPhone-com"] || "",
-          //
           "dataCompany":{
             "type":"0",
             "title":companyName,
             "taxNumb":companyTaxNumb,
-            "address":e.detail.value["address-com"] || "",
+            "address":e.detail.value["address-com"] || that.data.title.address,
             "companyPhone":e.detail.value["companyPhone-com"] || "",
             "bank":e.detail.value["bank-com"] || "",
             "bankAccount":e.detail.value["bankAccount-com"] || "",
@@ -424,18 +418,25 @@ Page({
             if (res.data.code === 0){
               var data = res.data.data;
               console.log(data)
+              hints.operSuccess("修改成功")
               // 成功，返回上一页
-              wx.navigateBack()
+              setTimeout(()=>{
+                wx.navigateBack()
+              },1500)
+
             }else{
-              //todo 失败
+              // 失败
+              hints.returnError("修改失败，需要先退款再重新开票")
             }
+          },fail(res) {
+            hints.networkError()
           }
         })
 
       }
       else{
-        var name = e.detail.value["name-private"];
-        var email = e.detail.value["email-private"];
+        var name = e.detail.value["name-private"] || that.data.title.title;
+        var email = e.detail.value["email-private"] || that.data.title.email;
         if (name.trim() === "" || email.trim() === "") {
           wx.showToast({
             icon:"none",
@@ -454,7 +455,7 @@ Page({
         // todo 提交个人抬头
         var send_data= {
           "sessionId":app.globalData.sessionId,
-          "titleId":that.data.title.id,
+          "invoiceId":that.data.title.id,
           "isCompany":0,
           "dataPerson":{
             "type":"1",
@@ -472,10 +473,14 @@ Page({
             if (res.data.code === 0){
               var data = res.data.data;
               console.log(data)
+              hints.operSuccess("修改成功")
               // 成功，返回上一页
-              wx.navigateBack()
+              setTimeout(()=>{
+                wx.navigateBack()
+              },1500)
             }else{
-              //todo 失败
+              // 失败
+              hints.returnError("修改失败，需要先退款再重新开票")
             }
           }
         })
