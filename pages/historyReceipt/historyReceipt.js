@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    reload:false,//是否刷新
     invoiceList:[{
       id:"zwk",
       receiptTitle:"陕西师范大学",
@@ -36,6 +37,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // if (options.path === "detail"){
+    //
+    // }
     //todo 动态加载dateArray
     let that = this;
     wx.request({
@@ -95,7 +99,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if (this.data.reload) {
+      this.setData({
+        reload: false
+      })
+      this.onLoad()
+    }
   },
 
   /**

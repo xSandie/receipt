@@ -178,8 +178,11 @@ Page({
             hints.operSuccess("发送成功")
             that.onPullDownRefresh()
           }else{
-            //todo 失败
+            // 失败
+            hints.returnError(res.data.msg)
           }
+        },fail(res) {
+          hints.networkError()
         }
       })
 
@@ -211,9 +214,18 @@ Page({
           var data = res.data.data;
           console.log(data);
           hints.operSuccess("发票冲红成功")
+          var pages = getCurrentPages();
+          var currPage = pages[pages.length - 1]; //当前页面
+          var prevPage = pages[pages.length - 2]; //上一个页面
+          prevPage.setData({
+            reload : true
+          })
+          setTimeout(()=>{
+            wx.navigateBack()
+          },1500)
         }else{
-          //todo 失败
-          hints.returnError()
+          // 失败
+          hints.returnError(res.data.msg)
         }
       },fail(res) {
         hints.networkError()

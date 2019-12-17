@@ -243,9 +243,12 @@ Page({
             var data = res.data.data;
             console.log(data)
             // 成功，返回上一页
-            wx.navigateBack()
+            wx.reLaunch({
+              url:"../index/index"
+            })
           }else{
             //todo 失败
+
           }
         }
       })

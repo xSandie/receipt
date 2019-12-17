@@ -221,7 +221,7 @@ Page({
               })
             },1000)
           }else{
-            hints.returnError(data.msg)
+            hints.returnError(res.data.msg)
           }
         },fail(res) {
           hints.networkError()
