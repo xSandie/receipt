@@ -34,7 +34,7 @@ Page({
   onLoad: function (options) {
       var that = this;
       if (options.code){
-        let order_code = "9000000011420792020181213170010";//todo 改
+        let order_code = options.code;//todo 改
         this.setData({
           code:order_code
         });

@@ -17,7 +17,7 @@ function networkError(text="请检查网络连接",icon="none") {
 }
 
 function inputError(text="输入有误",icon="none") {
-    //网络有误
+    //输入有误
     wx.showToast({
         icon:icon,
         title:text
